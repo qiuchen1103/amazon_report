@@ -79,7 +79,7 @@
             </div>
         </section>
         <section>
-            <div class="fix-hd-table">
+            <div class="fix-cente fix-hd-table">
               <div class="noscroll-head j-noscroll-head">
                     <table class="thead table table-bordered table-hover j-thead">
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
@@ -511,16 +511,6 @@
             var targetScrollTop = $('.j-scroll-body').scrollTop();
             $('.j-scroll-body-left').scrollTop(targetScrollTop);
             $('.j-scroll-body-right').scrollTop(targetScrollTop);
-        });
-        $('.j-scroll-body-left').scroll(function(event) {
-            var targetScrollTop = $('.j-scroll-body-left').scrollTop();
-            $('.j-scroll-body').scrollTop(targetScrollTop);
-            $('.j-scroll-body-right').scrollTop(targetScrollTop);
-        });
-        $('.j-scroll-body-right').scroll(function(event) {
-            var targetScrollTop = $('.j-scroll-body-right').scrollTop();
-            $('.j-scroll-body-left').scrollTop(targetScrollTop);
-            $('.j-scroll-body').scrollTop(targetScrollTop);
         });
     </script>
 </body>

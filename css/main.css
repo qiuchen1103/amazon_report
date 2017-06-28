@@ -10,13 +10,13 @@
   table-layout: fixed;
   text-align: center;
 }
-.m-report-ctn .fix-hd-table table.thead {
+.m-report-ctn .fix-hd-table .thead {
   margin-bottom: 0;
 }
-.m-report-ctn .fix-hd-table table.thead th {
+.m-report-ctn .fix-hd-table .thead th {
   text-align: center;
 }
-.m-report-ctn .fix-hd-table div.scroll-body {
+.m-report-ctn .fix-hd-table .scroll-body {
   height: 200px;
   overflow-y: auto;
 }
@@ -26,6 +26,7 @@
   left: 15px;
   top: 130px;
   width: 271px;
+  pointer-events: none;
 }
 .m-report-ctn .fix-left .noscroll-head,
 .m-report-ctn .fix-right .noscroll-head {
@@ -33,7 +34,9 @@
 }
 .m-report-ctn .fix-left .scroll-body,
 .m-report-ctn .fix-right .scroll-body {
-  overflow-x: hidden;
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
 }
 .m-report-ctn .fix-left td,
 .m-report-ctn .fix-right td {
