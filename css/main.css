@@ -19,6 +19,7 @@
 .m-report-ctn .fix-hd-table .scroll-body {
   height: 200px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 .m-report-ctn .fix-left,
 .m-report-ctn .fix-right {
