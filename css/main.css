@@ -35,9 +35,17 @@
 }
 .m-report-ctn .fix-left .scroll-body,
 .m-report-ctn .fix-right .scroll-body {
+  width: 270px;
   overflow: hidden;
   position: absolute;
   left: 0px;
+}
+.m-report-ctn .fix-left .scroll-body-left,
+.m-report-ctn .fix-right .scroll-body-left,
+.m-report-ctn .fix-left .scroll-body-right,
+.m-report-ctn .fix-right .scroll-body-right {
+  position: absolute;
+  top: 0;
 }
 .m-report-ctn .fix-left td,
 .m-report-ctn .fix-right td {

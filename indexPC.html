@@ -262,8 +262,8 @@
                           </tbody>
                         </table>
                   </div>
-                  <div class="scroll-body j-scroll-body-left">
-                    <table class="tbody table table-bordered table-hover">
+                  <div class="scroll-body">
+                    <table class="tbody table table-bordered table-hover scroll-body-left j-scroll-body-left">
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
@@ -398,8 +398,8 @@
                           </tbody>
                         </table>
                   </div>
-                  <div class="scroll-body j-scroll-body-right">
-                    <table class="tbody table table-bordered table-hover">
+                  <div class="scroll-body">
+                    <table class="tbody table table-bordered table-hover scroll-body-right j-scroll-body-right">
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
                       <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
@@ -507,6 +507,11 @@
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 	<script>
         $('.j-scroll-body').css('width', $('.j-thead').css('width'));
+        $('.j-scroll-body').scroll(function(event) {
+            var targetScrollTop = $('.j-scroll-body').scrollTop();
+            $('.j-scroll-body-left').css('top', -targetScrollTop);
+            $('.j-scroll-body-right').css('top', -targetScrollTop);
+        });
     </script>
 </body>
 
