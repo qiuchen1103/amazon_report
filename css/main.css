@@ -46,12 +46,3 @@
 .m-report-ctn .visibility-none {
   visibility: hidden;
 }
-.m-report-ctn ::-webkit-scrollbar {
-  width: 0px;
-  height: 0px;
-}
-.m-report-ctn ::-webkit-scrollbar-thumb {
-  border-radius: 5px;
-  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.2);
-}
