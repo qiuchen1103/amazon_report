@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AMAZON statistics</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/main.min.css">
+</head>
+
+<body>
+    <div class="container-fluid m-report-ctn">
+        <header>
+            <h3>数据报表<small>综合报表(父)</small></h3>
+        </header>
+        <section>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="store">店铺</label>
+                        <select id="store" class="form-control">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="leader">负责人</label>
+                        <select id="leader" class="form-control">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="ASIN">ASIN父</label>
+                        <input type="text" class="form-control" id="ASIN" placeholder="ASIN父">
+                      </div>
+                </div>
+                <div class="col-sm-1">
+                    <div class="form-group">
+                        <label for="period">统计周期</label>
+                        <select id="period" class="form-control">
+                              <option>自定义</option>
+                              <option>日</option>
+                              <option>周</option>
+                              <option>月</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <label for="time">时间范围</label>
+                        <input type="text" class="form-control" id="time" placeholder="时间范围">
+                      </div>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary hd-opt">导出</button>
+                </div>
+                <div class="col-sm-1">
+                    <button class="btn btn-primary hd-opt">搜索</button>
+                </div>
+                <div class="col-sm-1">
+                    <a href="#" class="text-danger hd-opt">高级搜索</a>
+                </div>
+                <div class="col-sm-1">
+                    <a href="#" class="text-danger hd-opt">批量操作</a>
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="fix-hd-table">
+              <div class="noscroll-head j-noscroll-head">
+                    <table class="thead table table-bordered table-hover j-thead">
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <tbody>
+                        <tr class="info">
+                            <td></td><td></td><td></td>
+                          <th>名称</th>
+                          <th>语法</th>
+                          <th>说明</th>
+                          <th>例子</th>
+                          <th>名称</th>
+                          <th>语法</th>
+                          <th>说明</th>
+                          <th>例子</th>
+                          <th>名称</th>
+                          <th>语法</th>
+                          <th>说明</th>
+                          <th>例子</th>
+                          <th>名称</th>
+                          <th>语法</th>
+                          <th>说明</th>
+                          <th>例子</th>
+                          <th>名称</th>
+                          <th>语法</th>
+                          <th>说明</th>
+                          <th>例子</th>
+                            <td></td><td></td><td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
+              <div class="scroll-body j-scroll-body">
+                <table class="tbody table table-bordered table-hover">
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                  <tbody>
+                    <tr>
+                      <td></td><td></td><td></td>
+                      <td>Simple attribute Selector</td>
+                      <td>[attr] </td>
+                      <td>选择具有此属性的元素</td>
+                      <td>blockquote0 { <br/>color: red }</td>
+                      <td>Simple attribute Selector</td>
+                      <td>[attr] </td>
+                      <td>选择具有此属性的元素</td>
+                      <td>blockquote0 { <br/>color: red }</td>
+                      <td>Simple attribute Selector</td>
+                      <td>[attr] </td>
+                      <td>选择具有此属性的元素</td>
+                      <td>blockquote0 { <br/>color: red }</td>
+                      <td>Simple attribute Selector</td>
+                      <td>[attr] </td>
+                      <td>选择具有此属性的元素</td>
+                      <td>blockquote0 { <br/>color: red }</td>
+                      <td>Simple attribute Selector</td>
+                      <td>[attr] </td>
+                      <td>选择具有此属性的元素</td>
+                      <td>blockquote0 { <br/>color: red }</td>
+                      <td></td><td></td><td></td>
+                    </tr>
+                      <tr>
+                        <td></td><td></td><td></td>
+                        <td>Simple attribute Selector</td>
+                        <td>[attr] </td>
+                        <td>选择具有此属性的元素</td>
+                        <td>blockquote0 { <br/>color: red }</td>
+                        <td>Simple attribute Selector</td>
+                        <td>[attr] </td>
+                        <td>选择具有此属性的元素</td>
+                        <td>blockquote0 { <br/>color: red }</td>
+                        <td>Simple attribute Selector</td>
+                        <td>[attr] </td>
+                        <td>选择具有此属性的元素</td>
+                        <td>blockquote0 { <br/>color: red }</td>
+                        <td>Simple attribute Selector</td>
+                        <td>[attr] </td>
+                        <td>选择具有此属性的元素</td>
+                        <td>blockquote0 { <br/>color: red }</td>
+                        <td>Simple attribute Selector</td>
+                        <td>[attr] </td>
+                        <td>选择具有此属性的元素</td>
+                        <td>blockquote0 { <br/>color: red }</td>
+                        <td></td><td></td><td></td>
+                      </tr>
+                        <tr>
+                          <td></td><td></td><td></td>
+                          <td>Simple attribute Selector</td>
+                          <td>[attr] </td>
+                          <td>选择具有此属性的元素</td>
+                          <td>blockquote0 { <br/>color: red }</td>
+                          <td>Simple attribute Selector</td>
+                          <td>[attr] </td>
+                          <td>选择具有此属性的元素</td>
+                          <td>blockquote0 { <br/>color: red }</td>
+                          <td>Simple attribute Selector</td>
+                          <td>[attr] </td>
+                          <td>选择具有此属性的元素</td>
+                          <td>blockquote0 { <br/>color: red }</td>
+                          <td>Simple attribute Selector</td>
+                          <td>[attr] </td>
+                          <td>选择具有此属性的元素</td>
+                          <td>blockquote0 { <br/>color: red }</td>
+                          <td>Simple attribute Selector</td>
+                          <td>[attr] </td>
+                          <td>选择具有此属性的元素</td>
+                          <td>blockquote0 { <br/>color: red }</td>
+                          <td></td><td></td><td></td>
+                        </tr>
+                          <tr>
+                            <td></td><td></td><td></td>
+                            <td>Simple attribute Selector</td>
+                            <td>[attr] </td>
+                            <td>选择具有此属性的元素</td>
+                            <td>blockquote0 { <br/>color: red }</td>
+                            <td>Simple attribute Selector</td>
+                            <td>[attr] </td>
+                            <td>选择具有此属性的元素</td>
+                            <td>blockquote0 { <br/>color: red }</td>
+                            <td>Simple attribute Selector</td>
+                            <td>[attr] </td>
+                            <td>选择具有此属性的元素</td>
+                            <td>blockquote0 { <br/>color: red }</td>
+                            <td>Simple attribute Selector</td>
+                            <td>[attr] </td>
+                            <td>选择具有此属性的元素</td>
+                            <td>blockquote0 { <br/>color: red }</td>
+                            <td>Simple attribute Selector</td>
+                            <td>[attr] </td>
+                            <td>选择具有此属性的元素</td>
+                            <td>blockquote0 { <br/>color: red }</td>
+                            <td></td><td></td><td></td>
+                          </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="fix-left">
+                <div class="fix-hd-table">
+                  <div class="noscroll-head">
+                        <table class="thead table table-bordered table-hover">
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <tbody>
+                            <tr class="info">
+                              <th>名称</th>
+                              <th>语法</th>
+                              <th>说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                  <div class="scroll-body j-scroll-body-left">
+                    <table class="tbody table table-bordered table-hover">
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <tbody>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+            <div class="fix-right">
+                <div class="fix-hd-table">
+                  <div class="noscroll-head">
+                        <table class="thead table table-bordered table-hover">
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                          <tbody>
+                            <tr class="info">
+                              <th>名称</th>
+                              <th>语法</th>
+                              <th>说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                              <th class="visibility-none">名称</th>
+                              <th class="visibility-none">语法</th>
+                              <th class="visibility-none">说明</th>
+                              <th class="visibility-none">例子</th>
+                            </tr>
+                          </tbody>
+                        </table>
+                  </div>
+                  <div class="scroll-body j-scroll-body-right">
+                    <table class="tbody table table-bordered table-hover">
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <col width="90px"></col> <col width="90px"></col> <col width="90px"></col> <col width="90px"></col>
+                      <tbody>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                        <tr>
+                          <td>Simple</td>
+                          <td>[attr] </td>
+                          <td>选择</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                          <td class="visibility-none">Simple attribute Selector</td>
+                          <td class="visibility-none">[attr] </td>
+                          <td class="visibility-none">选择具有此属性的元素</td>
+                          <td class="visibility-none">blockquote0 { <br/>color: red }</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+            </div>
+        </section>
+        <footer>
+
+        </footer>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+        $('.j-scroll-body').css('width', $('.j-thead').css('width'));
+        $('.j-scroll-body').scroll(function(event) {
+            var targetScrollTop = $('.j-scroll-body').scrollTop();
+            $('.j-scroll-body-left').scrollTop(targetScrollTop);
+            $('.j-scroll-body-right').scrollTop(targetScrollTop);
+        });
+        $('.j-scroll-body-left').scroll(function(event) {
+            var targetScrollTop = $('.j-scroll-body-left').scrollTop();
+            $('.j-scroll-body').scrollTop(targetScrollTop);
+            $('.j-scroll-body-right').scrollTop(targetScrollTop);
+        });
+        $('.j-scroll-body-right').scroll(function(event) {
+            var targetScrollTop = $('.j-scroll-body-right').scrollTop();
+            $('.j-scroll-body-left').scrollTop(targetScrollTop);
+            $('.j-scroll-body').scrollTop(targetScrollTop);
+        });
+    </script>
+</body>
+
+</html>
