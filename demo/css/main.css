@@ -50,9 +50,7 @@
 .m-report-ctn .fix-right .scroll-body-left,
 .m-report-ctn .fix-left .scroll-body-right,
 .m-report-ctn .fix-right .scroll-body-right {
-  position: absolute;
-  top: 0;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 .m-report-ctn .fix-left td,
 .m-report-ctn .fix-right td {
