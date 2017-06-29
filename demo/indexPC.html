@@ -78,11 +78,12 @@
                 </div>
             </div>
         </section>
-        <section>
+        <section class="j-render-ctn">
             <table-vue :col="col"
                         :row="row"
                         :ctn="ctn"
             ></table-vue>
+
 
             <div class="fix-left">
                 <table-vue :col="col"
@@ -100,14 +101,11 @@
                 ></table-vue>
             </div>
         </section>
-        <footer>
-
-        </footer>
     </div>
     <script type="text/x-template" id="table-temp">
         <div class="fix-hd-table">
             <div class="noscroll-head" :class="{'j-noscroll-head': !left&&!right}">
-                <table class="thead table table-bordered table-hover" :class="{'j-thead': !left&&!right}">
+                <table class="thead table table-bordered table-hover" :id="isScrollHead">
                     <col width="90px" v-for="n in col+3+2"></col>
                     <tbody>
                         <tr class="info">
@@ -155,8 +153,7 @@
             </div>
         </div>
     </script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/vue/2.3.4/vue.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
 	<script>
         Vue.component('table-vue', {
             template: '#table-temp',
@@ -170,6 +167,7 @@
             data: function() {
                 return {
                     isScrollBody: !this.left&&!this.right ? 'j-scroll-body' : '',
+                    isScrollHead: !this.left&&!this.right ? 'j-thead' : '',
                 }
             },
             computed: {
@@ -190,14 +188,15 @@
             data: {
                 row: 100,
                 col: 200,
-                ctn: '试试长文本显示'
+                ctn: '长文本显示'
             },
             mounted: function() {
-                $('#j-scroll-body').css('width', $('.j-thead').css('width'));
 
                 var getScrollBody = document.getElementById('j-scroll-body');
+                var getScrollHeader = document.getElementById('j-thead');
                 var getScrollLeft = document.getElementById('j-scroll-left');
                 var getScrollRight = document.getElementById('j-scroll-right');
+                getScrollBody.style.width = getScrollHeader.offsetWidth+'px';
                 getScrollBody.onscroll = function(){
                     var scrollTop = (function() {
                         if (getScrollBody.pageYOffset != null){
@@ -217,6 +216,8 @@
                 // });
             }
         })
+
+
     </script>
 </body>
 
