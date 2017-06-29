@@ -188,7 +188,7 @@
         new Vue({
             el: '.j-report-ctn',
             data: {
-                row: 100,
+                row: 30,
                 col: 200,
                 ctn: '试试长文本显示'
             },
@@ -207,8 +207,8 @@
                         }
                         return getScrollBody.scrollTop
                     })();
-                    getScrollLeft.style.top = -scrollTop + 'px'
-                    getScrollRight.style.top = -scrollTop + 'px'
+                    getScrollLeft.style.transform = 'translateY(' + (-scrollTop+'px') + ')';
+                    getScrollRight.style.transform = 'translateY(' + (-scrollTop+'px') + ')';
                 }
                 // $('.j-scroll-body').scroll(function(event) {
                 //     var targetScrollTop = $('.j-scroll-body').scrollTop();

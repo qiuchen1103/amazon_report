@@ -52,6 +52,7 @@
 .m-report-ctn .fix-right .scroll-body-right {
   position: absolute;
   top: 0;
+  transform: translateY(0);
 }
 .m-report-ctn .fix-left td,
 .m-report-ctn .fix-right td {
