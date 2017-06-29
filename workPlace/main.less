@@ -1,4 +1,14 @@
 .m-report-ctn {
+    .report-t {
+        small {
+            display: inline-block;
+            margin: 0 10px;
+        }
+    }
+    .report-hd {
+        font-size: 12px;
+        font-weight: normal;
+    }
     .hd-opt {
         display: inline-block;
         margin-top: 25px;
@@ -23,22 +33,16 @@
             overflow-x: hidden;
         }
     }
-
-    .fix-center {
-
-    }
     .fix-left,
     .fix-right {
         position: fixed;
-        left: 15px;
-        top: 130px;
-        width: 271px;
+        top: 128px;
+        height: 76px + 200px;
         pointer-events: none;
         .noscroll-head {
             overflow: hidden;
         }
         .scroll-body {
-            width: 270px;
             overflow: hidden;
             position: absolute;
             left: 0px;
@@ -52,9 +56,21 @@
             background-color: #fff;
         }
     }
+    .fix-left {
+        left: 15px;
+        width: 3*90+1px;
+        box-shadow: 1px 0 8px #ccc;
+        .scroll-body {
+            width: 3*90+1px;
+        }
+    }
     .fix-right {
-        left: auto;
         right: 15px;
+        width: 2*90+1px;
+        box-shadow: -1px 0 8px #ccc;
+        .scroll-body {
+            width: 2*90+1px;
+        }
     }
     .visibility-none {
         visibility: hidden;

@@ -1,3 +1,11 @@
+.m-report-ctn .report-t small {
+  display: inline-block;
+  margin: 0 10px;
+}
+.m-report-ctn .report-hd {
+  font-size: 12px;
+  font-weight: normal;
+}
 .m-report-ctn .hd-opt {
   display: inline-block;
   margin-top: 25px;
@@ -24,9 +32,8 @@
 .m-report-ctn .fix-left,
 .m-report-ctn .fix-right {
   position: fixed;
-  left: 15px;
-  top: 130px;
-  width: 271px;
+  top: 128px;
+  height: 276px;
   pointer-events: none;
 }
 .m-report-ctn .fix-left .noscroll-head,
@@ -35,7 +42,6 @@
 }
 .m-report-ctn .fix-left .scroll-body,
 .m-report-ctn .fix-right .scroll-body {
-  width: 270px;
   overflow: hidden;
   position: absolute;
   left: 0px;
@@ -51,9 +57,21 @@
 .m-report-ctn .fix-right td {
   background-color: #fff;
 }
+.m-report-ctn .fix-left {
+  left: 15px;
+  width: 271px;
+  box-shadow: 1px 0 8px #ccc;
+}
+.m-report-ctn .fix-left .scroll-body {
+  width: 271px;
+}
 .m-report-ctn .fix-right {
-  left: auto;
   right: 15px;
+  width: 181px;
+  box-shadow: -1px 0 8px #ccc;
+}
+.m-report-ctn .fix-right .scroll-body {
+  width: 181px;
 }
 .m-report-ctn .visibility-none {
   visibility: hidden;
