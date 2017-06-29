@@ -131,8 +131,8 @@
                     </tbody>
                 </table>
             </div>
-            <div class="scroll-body" :class="{'j-scroll-body': !left&&!right}">
-                <table class="tbody table table-bordered table-hover" :class="{'scroll-body-left j-scroll-body-left': left||right}">
+            <div class="scroll-body" :id="isScrollBody">
+                <table class="tbody table table-bordered table-hover" :class="{'scroll-body-left': left||right}" :id="whichSide">
                     <col width="90px" v-for="n in col+3+2"></col>
                     <tbody>
                         <tr v-for="m in row">
@@ -166,6 +166,22 @@
                 ctn: {type: String, default: ''},
                 left: {type: Boolean, default: false},
                 right: {type: Boolean, default: false},
+            },
+            data: function() {
+                return {
+                    isScrollBody: !this.left&&!this.right ? 'j-scroll-body' : '',
+                }
+            },
+            computed: {
+                whichSide: function() {
+                    if (this.left) {
+                        return 'j-scroll-left'
+                    } else if (this.right) {
+                        return 'j-scroll-right'
+                    } else {
+                        return ''
+                    }
+                }
             }
         })
 
@@ -178,11 +194,27 @@
             },
             mounted: function() {
                 $('.j-scroll-body').css('width', $('.j-thead').css('width'));
-                $('.j-scroll-body').scroll(function(event) {
-                    var targetScrollTop = $('.j-scroll-body').scrollTop();
-                    $('.j-scroll-body-left').css('top', -targetScrollTop);
-                    $('.j-scroll-body-right').css('top', -targetScrollTop);
-                });
+
+                var getScrollBody = document.getElementById('j-scroll-body');
+                var getScrollLeft = document.getElementById('j-scroll-left');
+                var getScrollRight = document.getElementById('j-scroll-right');
+                getScrollBody.onscroll = function(){
+                    var scrollTop = (function() {
+                        if (getScrollBody.pageYOffset != null){
+                            return getScrollBody.pageYOffset
+                        }else if (document.compatMode == 'CSS1Compat'){
+                            return getScrollBody.scrollTop
+                        }
+                        return getScrollBody.scrollTop
+                    })();
+                    getScrollLeft.style.top = -scrollTop + 'px'
+                    getScrollRight.style.top = -scrollTop + 'px'
+                }
+                // $('.j-scroll-body').scroll(function(event) {
+                //     var targetScrollTop = $('.j-scroll-body').scrollTop();
+                //     $('.j-scroll-body-left').css('top', -targetScrollTop);
+                //     $('.j-scroll-body-right').css('top', -targetScrollTop);
+                // });
             }
         })
     </script>
