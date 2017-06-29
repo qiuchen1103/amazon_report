@@ -207,8 +207,8 @@
                         }
                         return getScrollBody.scrollTop
                     })();
-                    getScrollLeft.style.transform = 'translateY(' + (-scrollTop+'px') + ')';
-                    getScrollRight.style.transform = 'translateY(' + (-scrollTop+'px') + ')';
+                    getScrollLeft.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
+                    getScrollRight.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
                 }
                 // $('.j-scroll-body').scroll(function(event) {
                 //     var targetScrollTop = $('.j-scroll-body').scrollTop();
