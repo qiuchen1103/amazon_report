@@ -11,9 +11,17 @@
 }
 .m-report-ctn .hd-table .form-group {
   display: table-cell;
+  padding-bottom: 5px;
 }
-.m-report-ctn .hd-table .form-control {
-  width: 45%;
+.m-report-ctn .hd-table .table-input {
+  display: block;
+  width: 80%;
+}
+.m-report-ctn .hd-table-batch {
+  width: 40%;
+}
+.m-report-ctn .hd-table-batch .table-input {
+  display: inline-block;
 }
 .m-report-ctn .hd-table-row {
   display: table-row;

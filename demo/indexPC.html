@@ -20,7 +20,7 @@
                 <div class="col-sm-1">
                     <div class="form-group">
                         <label for="store">店铺</label>
-                        <select id="store" class="form-control">
+                        <select id="store">
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -32,7 +32,7 @@
                 <div class="col-sm-1">
                     <div class="form-group">
                         <label for="leader">负责人</label>
-                        <select id="leader" class="form-control">
+                        <select id="leader">
                               <option>1</option>
                               <option>2</option>
                               <option>3</option>
@@ -44,13 +44,13 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="ASIN">ASIN父</label>
-                        <input type="text" class="form-control" id="ASIN" placeholder="ASIN父">
+                        <input type="text" id="ASIN" placeholder="ASIN父">
                       </div>
                 </div>
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="period">统计周期</label>
-                        <select id="period" class="form-control">
+                        <select id="period">
                               <option>自定义</option>
                               <option>日</option>
                               <option>周</option>
@@ -61,7 +61,7 @@
                 <div class="col-sm-2">
                     <div class="form-group">
                         <label for="time">时间范围</label>
-                        <input type="text" class="form-control" id="time" placeholder="时间范围">
+                        <input type="text" id="time" placeholder="时间范围">
                       </div>
                 </div>
                 <div class="col-sm-1">
@@ -70,57 +70,193 @@
                 <div class="col-sm-1">
                     <button class="btn btn-primary hd-opt">搜索</button>
                 </div>
-                <div class="col-sm-1">
-                    <a href="#" class="text-danger hd-opt">高级搜索</a>
+                <div v-show="!show.general" class="col-sm-1">
+                    <a @click="show.general=true" href="javascript:;" class="text-danger hd-opt">高级搜索</a>
                 </div>
-                <div class="col-sm-1">
-                    <a href="#" class="text-danger hd-opt">批量操作</a>
+                <div v-show="show.general" class="col-sm-1">
+                    <a @click="show.general=false" href="javascript:;" class="text-danger hd-opt">普通搜索</a>
+                </div>
+                <div v-show="show.general" class="col-sm-1">
+                    <a  @click="show.batch=!show.batch" href="javascript:;" class="text-danger hd-opt">批量操作</a>
                 </div>
             </div>
-            <div class="hd-table">
+            <div class="hd-table" v-show="!show.general">
                 <div class="hd-table-row">
                     <div class="form-group">
+                        <label for="tag">标签</label>
+                        <select class="table-input" id="tag">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="tip">备注</label>
-                        <input type="text" class="form-control" id="tip" placeholder="备注">
+                        <input class="table-input" id="tip" placeholder="备注">
                     </div>
                     <div class="form-group">
                         <label for="supplier">供应商</label>
-                        <input type="text" class="form-control" id="supplier" placeholder="供应商">
+                        <input class="table-input" id="supplier" placeholder="供应商">
                     </div>
                     <div class="form-group">
                         <label for="salesmin">销量min</label>
-                        <input type="text" class="form-control" id="salesmin" placeholder="销量min">
+                        <input class="table-input" id="salesmin" placeholder="销量min">
                     </div>
                     <div class="form-group">
                         <label for="salesmax">销量max</label>
-                        <input type="text" class="form-control" id="salesmax" placeholder="销量max">
+                        <input class="table-input" id="salesmax" placeholder="销量max">
                     </div>
                     <div class="form-group">
                         <label for="saleroommin">销售额min</label>
-                        <input type="text" class="form-control" id="saleroommin" placeholder="销售额min">
+                        <input class="table-input" id="saleroommin" placeholder="销售额min">
                     </div>
                     <div class="form-group">
                         <label for="saleroommax">销售额max</label>
-                        <input type="text" class="form-control" id="saleroommax" placeholder="销售额max">
+                        <input class="table-input" id="saleroommax" placeholder="销售额max">
                     </div>
                     <div class="form-group">
                         <label for="profitmin">利润min</label>
-                        <input type="text" class="form-control" id="profitmin" placeholder="利润min">
+                        <input class="table-input" id="profitmin" placeholder="利润min">
                     </div>
                     <div class="form-group">
                         <label for="profitmax">利润max</label>
-                        <input type="text" class="form-control" id="profitmax" placeholder="利润max">
+                        <input class="table-input" id="profitmax" placeholder="利润max">
                     </div>
                     <div class="form-group">
                         <label for="admin">广告min</label>
-                        <input type="text" class="form-control" id="admin" placeholder="广告min">
+                        <input class="table-input" id="admin" placeholder="广告min">
                     </div>
                     <div class="form-group">
                         <label for="admax">广告max</label>
-                        <input type="text" class="form-control" id="admax" placeholder="广告max">
+                        <input class="table-input" id="admax" placeholder="广告max">
                     </div>
                 </div>
-                
+                <div class="hd-table-row">
+                    <div class="form-group">
+                        <label for="minUnitSession">转化(%) min</label>
+                        <input class="table-input" placeholder="转化(%) min" id="minUnitSession" name="minUnitSession" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxUnitSession">转化(%) max</label>
+                        <input class="table-input" placeholder="转化(%) max" id="maxUnitSession" name="maxUnitSession" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minGainRate">利润(%) min</label>
+                        <input class="table-input" placeholder="利润(%) min" id="minGainRate" name="minGainRate" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxGainRate">利润(%) max</label>
+                        <input class="table-input" placeholder="利润(%) max" id="maxGainRate" name="maxGainRate" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minRefund">退款额 min</label>
+                        <input class="table-input" placeholder="退款额 min" id="minRefund" name="minRefund" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxRefund">退款额 max</label>
+                        <input class="table-input" placeholder="退款额 max" id="maxRefund" name="maxRefund" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minQuantity">退款量 min</label>
+                        <input class="table-input" placeholder="退款量 min" id="minQuantity" name="minQuantity" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxQuantity">退款量 max</label>
+                        <input class="table-input" placeholder="退款量 max" id="maxQuantity" name="maxQuantity" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minAdRate">广告占比 min</label>
+                        <input class="table-input" placeholder="广告占比 min" id="minAdRate" name="minAdRate" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxAdRate">广告占比 max</label>
+                        <input class="table-input" placeholder="广告占比 max" id="maxAdRate" name="maxAdRate" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minStock_s">库存 min</label>
+                        <input class="table-input" placeholder="库存 min" id="minStock_s" name="minStock_s" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxStock_s">库存 max</label>
+                        <input class="table-input" placeholder="库存 max" id="maxStock_s" name="maxStock_s" type="text">
+                    </div>
+                </div>
+                <div class="hd-table-row">
+                    <div class="form-group">
+                        <label for="minReturnGoods">退货 min</label>
+                        <input class="table-input" placeholder="退货 min" id="minReturnGoods" name="minReturnGoods" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxReturnGoods">退货 max</label>
+                        <input class="table-input" placeholder="退货 max" id="maxReturnGoods" name="maxReturnGoods" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minFBAStock">FBA备货 min</label>
+                        <input class="table-input" placeholder="FBA备货 min" id="minFBAStock" name="minFBAStock" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxFBAStock">FBA备货 max</label>
+                        <input class="table-input" placeholder="FBA备货 max" id="maxFBAStock" name="maxFBAStock" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minStock105BC">105库存 min</label>
+                        <input class="table-input" placeholder="105库存 min" id="minStock105BC" name="minStock105BC" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxStock105BC">105库存 max</label>
+                        <input class="table-input" placeholder="105库存 max" id="maxStock105BC" name="maxStock105BC" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minStockOrder">存销比 min</label>
+                        <input class="table-input" placeholder="存销比 min" id="minStockOrder" name="minStockOrder" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxStockOrder">存销比 max</label>
+                        <input class="table-input" placeholder="存销比 max" id="maxStockOrder" name="maxStockOrder" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="minRating">星级 min</label>
+                        <input class="table-input" placeholder="星级 min" id="minRating" name="minRating" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="maxRating">星级 max</label>
+                        <input class="table-input" placeholder="星级 max" id="maxRating" name="maxRating" type="text">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="on_shelf" name="on_shelf">
+                        <label for="on_shelf">是否包含上下架</label>
+                    </div>
+                </div>
+            </div>
+            <div class="hd-table hd-table-batch" v-show="show.batch">
+                <div class="hd-table-row">
+                    <div class="form-group">
+                        <label for="cleantag">标签</label>
+                        <select class="table-input" id="cleantag">
+                              <option>1</option>
+                              <option>2</option>
+                              <option>3</option>
+                              <option>4</option>
+                              <option>5</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="batch-tag" name="batch-tag">
+                        <label for="batch-tag">批量清除标签</label>
+                    </div>
+                </div>
+                <div class="hd-table-row">
+                    <div class="form-group">
+                        <label for="cleantip">备注</label>
+                        <input class="table-input" id="cleantip" placeholder="备注">
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="batch-tip" name="batch-tip">
+                        <label for="batch-tip">批量清除备注</label>
+                    </div>
+                </div>
             </div>
         </section>
         <section class="j-render-ctn">
@@ -215,6 +351,10 @@
         var reportVue = new Vue({
             el: '.j-report-ctn',
             data: {
+                show: {
+                    general: true,
+                    batch: false
+                },
                 row: 10,
                 col: 30,
                 ctn: [],
