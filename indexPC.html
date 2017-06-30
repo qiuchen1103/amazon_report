@@ -319,6 +319,23 @@
     <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/vue/2.3.4/vue.js"></script>
 	<script>
+    $('.j-sg-ctn td').hover(function() {
+        var e = $(this).prevAll().length+1,
+        t = $(this).closest("tr").prevAll().length+1;
+
+        if (e>1) {
+            $(this).closest("table").find("tr:lt(" + t + ") > td:nth-child(" + e + ")").addClass("col-highlight");
+            if ($(this).hasClass('j-sgcol2')) {
+                $(this).closest("table").find("tr:lt(" + t + ") > td:nth-child(" + (e+1) + ")").addClass("col-highlight");
+            } 
+            if ($(this).hasClass('j-sgcol-2')) {
+                $(this).closest("table").find("tr:lt(" + t + ") > td:nth-child(" + (e-1) + ")").addClass("col-highlight");
+            }
+        }
+
+    }, function() {
+        $(this).closest("table").find("tr > .col-highlight").removeClass("col-highlight");
+    });
         Vue.component('table-vue', {
             template: '#table-temp',
             props: {
