@@ -52,7 +52,7 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
-.m-report-ctn .fix-center {
+.m-report-ctn .fix-wrap {
   position: relative;
 }
 .m-report-ctn .fix-left,

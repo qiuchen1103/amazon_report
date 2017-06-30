@@ -260,8 +260,9 @@
             </div>
         </section>
         <section class="j-render-ctn">
-            <div class="fix-center">
-                <table-vue :col="col"
+            <div class="fix-wrap">
+                <table-vue class="fix-center j-fix-center"
+                            :col="col"
                             :row="row"
                             :fix="fix"
                             :sort="sort"
@@ -450,7 +451,11 @@
 
                 // 列表项的hover和点击
                 bindTd: function() {
-                    // $('#j-scroll-body td').
+                    $('.j-fix-center td').hover(function() {
+                        /* Stuff to do when the mouse enters the element */
+                    }, function() {
+                        /* Stuff to do when the mouse leaves the element */
+                    });
                 }
             }
         })
