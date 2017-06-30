@@ -1,3 +1,10 @@
+.m-report-ctn .form-group {
+  white-space: nowrap;
+}
+.m-report-ctn .form-control {
+  display: inline-block;
+  width: 80%;
+}
 .m-report-ctn .report-t small {
   display: inline-block;
   margin: 0 10px;
@@ -8,7 +15,6 @@
 }
 .m-report-ctn .hd-opt {
   display: inline-block;
-  margin-top: 25px;
 }
 .m-report-ctn .fix-hd-table {
   width: 100%;
@@ -29,10 +35,13 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+.m-report-ctn .fix-center {
+  position: relative;
+}
 .m-report-ctn .fix-left,
 .m-report-ctn .fix-right {
-  position: fixed;
-  top: 128px;
+  position: absolute;
+  top: 0px;
   height: 276px;
   pointer-events: none;
 }
@@ -57,7 +66,7 @@
   background-color: #fff;
 }
 .m-report-ctn .fix-left {
-  left: 15px;
+  left: 0px;
   width: 271px;
   box-shadow: 1px 0 8px #ccc;
 }

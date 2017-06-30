@@ -17,7 +17,7 @@
         </header>
         <section class="report-hd">
             <div class="row">
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <div class="form-group">
                         <label for="store">店铺</label>
                         <select id="store" class="form-control">
@@ -29,7 +29,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-2">
+                <div class="col-sm-1">
                     <div class="form-group">
                         <label for="leader">负责人</label>
                         <select id="leader" class="form-control">
@@ -41,13 +41,13 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <div class="form-group">
                         <label for="ASIN">ASIN父</label>
                         <input type="text" class="form-control" id="ASIN" placeholder="ASIN父">
                       </div>
                 </div>
-                <div class="col-sm-1">
+                <div class="col-sm-2">
                     <div class="form-group">
                         <label for="period">统计周期</label>
                         <select id="period" class="form-control">
@@ -79,26 +79,24 @@
             </div>
         </section>
         <section class="j-render-ctn">
-            <table-vue :col="col"
-                        :row="row"
-                        :ctn="ctn"
-            ></table-vue>
-
-
-            <div class="fix-left">
+            <div class="fix-center">
                 <table-vue :col="col"
                             :row="row"
+                            :fix="fix"
+                            :sort="sort"
                             :ctn="ctn"
-                            :left="true"
                 ></table-vue>
-            </div>
 
-            <div class="fix-right">
-                <table-vue :col="col"
-                            :row="row"
-                            :ctn="ctn"
-                            :right="true"
-                ></table-vue>
+
+                <div class="fix-left">
+                    <table-vue :col="col"
+                                :row="row"
+                                :fix="fix"
+                                :sort="sort"
+                                :ctn="ctn"
+                                :left="true"
+                    ></table-vue>
+                </div>
             </div>
         </section>
     </div>
@@ -106,61 +104,47 @@
         <div class="fix-hd-table">
             <div class="noscroll-head" :class="{'j-noscroll-head': !left&&!right}">
                 <table class="thead table table-bordered table-hover" :id="isScrollHead">
-                    <col width="90px" v-for="n in col+3+2"></col>
+                    <col width="90px" v-for="n in col+3"></col>
                     <tbody>
                         <tr class="info">
-                            <th v-if="!right" rowspan="2">选择框</th>
-                            <th v-if="!right" rowspan="2">编号</th>
-                            <th v-if="!right" rowspan="2">店铺码</th>
-                            <th v-if="right" rowspan="2">标签</th>
-                            <th v-if="right" rowspan="2">备注</th>
-
-                            <th :colspan="col/20" v-for="n in col/10" :class="{'visibility-none': left||right}">{{n + '第一列长头'}}</th>
-
-                            <th v-if="right" rowspan="2">选择框</th>
-                            <th v-if="right" rowspan="2">编号</th>
-                            <th v-if="!right" rowspan="2">店铺码</th>
-                            <th v-if="!right" rowspan="2">标签</th>
-                            <th v-if="!right" rowspan="2">备注</th>
+                            <th :colspan="3" v-if="!right">基础数据</th>
+                            <th :colspan="col" v-for="n in 1" :class="{'visibility-none': left||right}">{{n + '第一列长头'}}</th>
                         </tr>
                         <tr class="info">
-                            <th v-for="n in col" :class="{'visibility-none': left||right}">{{n + '第二列短头'}}</th>
+                            <td v-if="!right" v-for="(fixValue, fixKey) in fix">
+                                {{fixValue}}
+                            </td>
+                            <th v-for="sortValue in sort" :class="{'visibility-none': left||right}">{{sortValue}}</th>
                         </tr>
                     </tbody>
                 </table>
             </div>
             <div class="scroll-body" :id="isScrollBody">
                 <table class="tbody table table-bordered table-hover" :class="{'scroll-body-left': left||right}" :id="whichSide">
-                    <col width="90px" v-for="n in col+3+2"></col>
+                    <col width="90px" v-for="n in col+3"></col>
                     <tbody>
                         <tr v-for="m in row">
-                            <td v-if="!right">选择框</td>
-                            <td v-if="!right">编号</td>
-                            <td v-if="!right">店铺码</td>
-                            <td v-if="right">标签</td>
-                            <td v-if="right">备注</td>
-
-                            <td v-for="n in col" :class="{'visibility-none': left||right}">{{'row:'+m + 'col:'+n + ctn}}</td>
-
-                            <td v-if="right" class="visibility-none">选择框</td>
-                            <td v-if="right" class="visibility-none">编号</td>
-                            <td v-if="right" class="visibility-none">店铺码</td>
-                            <td v-if="!right" class="visibility-none">标签</td>
-                            <td v-if="!right" class="visibility-none">备注</td>
+                            <td v-if="!right" v-for="(fixValue, fixKey) in fix">
+                                {{ctn[m-1] ? ctn[m-1][fixKey] : ''}}
+                            </td>
+                            <td v-for="(sortValue, sortKey) in sort" :class="{'visibility-none': left||right}">{{ctn[m-1] ? ctn[m-1][sortKey] : ''}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </script>
-    <script src="https://cdn.bootcss.com/vue/2.3.4/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.3.4/vue.js"></script>
 	<script>
         Vue.component('table-vue', {
             template: '#table-temp',
             props: {
                 col: {type: Number, default: 0},
                 row: {type: Number, default: 0},
-                ctn: {type: String, default: ''},
+                fix: {type: Object, default: {}},
+                sort: {type: Object, default: {}},
+                ctn: {type: Array, default: []},
                 left: {type: Boolean, default: false},
                 right: {type: Boolean, default: false},
             },
@@ -183,37 +167,106 @@
             }
         })
 
-        new Vue({
+        var reportVue = new Vue({
             el: '.j-report-ctn',
             data: {
-                row: 100,
-                col: 200,
-                ctn: '长文本显示'
+                row: 10,
+                col: 30,
+                ctn: [],
+                fix: {
+                    'id': '序号',
+                    'asinf': 'ASIN父',
+                    'bi_img_url': '图片',
+                },
+                sort : {
+                    // 基础数据
+                    'shop': '店铺',
+                    'charger': '负责人',
+                    "catpath": '分类',
+                    'bi_weight': '重量',
+                    'bi_cost': '成本',
+
+                    // 库存
+                    'afninboundshippedquantity': 'FBA在途库存',
+                    'bi_stock105areabc': '105库存',
+
+                    // 销售
+                    // 广告
+                    // 成本
+                    // 退货
+                    // 其它
+                    'eviewnum': '评论数',
+                    'goodssort': '排名',
+                    '': '',
+                    '': '',
+                }
+            },
+            created: function() {
+                this.getAjax();
             },
             mounted: function() {
 
-                var getScrollBody = document.getElementById('j-scroll-body');
-                var getScrollHeader = document.getElementById('j-thead');
-                var getScrollLeft = document.getElementById('j-scroll-left');
-                var getScrollRight = document.getElementById('j-scroll-right');
-                getScrollBody.style.width = getScrollHeader.offsetWidth+'px';
-                getScrollBody.onscroll = function(){
-                    var scrollTop = (function() {
-                        if (getScrollBody.pageYOffset != null){
-                            return getScrollBody.pageYOffset
-                        }else if (document.compatMode == 'CSS1Compat'){
-                            return getScrollBody.scrollTop
+            },
+            methods: {
+                getAjax: function() {
+                    var self = this;
+                    $.ajax({
+                        url: '/yuzhen_json.json',
+                        type: 'GET',
+                        dataType: 'json'
+                    })
+                    .done(function(json) {
+                        console.log(json);
+                        self.row = json.length;
+
+                        var size = 0, key;
+                        for (key in json[0]) {
+                            size++;
                         }
-                        return getScrollBody.scrollTop
-                    })();
-                    getScrollLeft.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
-                    getScrollRight.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
+                        self.col = size;
+
+                        self.ctn = json;
+
+                        self.$nextTick(function() {
+                            self.bindEvent();
+                        })
+                    })
+                    .fail(function() {
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+
+                },
+                bindEvent: function() {
+                    var getScrollBody = document.getElementById('j-scroll-body');
+                    var getScrollHeader = document.getElementById('j-thead');
+                    var getScrollLeft = document.getElementById('j-scroll-left');
+                    getScrollBody.style.width = getScrollHeader.offsetWidth+'px';
+                    getScrollBody.onscroll = function(){
+                        var scrollTop = (function() {
+                            if (getScrollBody.pageYOffset != null){
+                                return getScrollBody.pageYOffset
+                            }else if (document.compatMode == 'CSS1Compat'){
+                                return getScrollBody.scrollTop
+                            }
+                            return getScrollBody.scrollTop
+                        })();
+                        getScrollLeft.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
+                    }
+
+                    // $('.j-scroll-body').scroll(function(event) {
+                    //     var targetScrollTop = $('.j-scroll-body').scrollTop();
+                    //     $('.j-scroll-body-left').css('top', -targetScrollTop);
+                    //     $('.j-scroll-body-right').css('top', -targetScrollTop);
+                    // });
+                },
+
+                // 列表项的hover和点击
+                bindTd: function() {
+                    // $('#j-scroll-body td').
                 }
-                // $('.j-scroll-body').scroll(function(event) {
-                //     var targetScrollTop = $('.j-scroll-body').scrollTop();
-                //     $('.j-scroll-body-left').css('top', -targetScrollTop);
-                //     $('.j-scroll-body-right').css('top', -targetScrollTop);
-                // });
             }
         })
 

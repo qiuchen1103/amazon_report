@@ -1,4 +1,11 @@
 .m-report-ctn {
+    .form-group {
+        white-space: nowrap;
+    }
+    .form-control {
+        display: inline-block;
+        width: 80%;
+    }
     .report-t {
         small {
             display: inline-block;
@@ -11,7 +18,6 @@
     }
     .hd-opt {
         display: inline-block;
-        margin-top: 25px;
     }
 
     .fix-hd-table {
@@ -33,10 +39,14 @@
             overflow-x: hidden;
         }
     }
+
+    .fix-center {
+        position: relative;
+    }
     .fix-left,
     .fix-right {
-        position: fixed;
-        top: 128px;
+        position: absolute;
+        top: 0px;
         height: 76px + 200px;
         pointer-events: none;
         .noscroll-head {
@@ -56,7 +66,7 @@
         }
     }
     .fix-left {
-        left: 15px;
+        left: 0px;
         width: 3*90+1px;
         box-shadow: 1px 0 8px #ccc;
         .scroll-body {
