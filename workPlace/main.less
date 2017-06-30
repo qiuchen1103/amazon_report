@@ -1,11 +1,4 @@
 .m-report-ctn {
-    .form-group {
-        white-space: nowrap;
-    }
-    .form-control {
-        display: inline-block;
-        width: 80%;
-    }
     .report-t {
         small {
             display: inline-block;
@@ -16,9 +9,30 @@
         font-size: 12px;
         font-weight: normal;
     }
-    .hd-opt {
-        display: inline-block;
+
+    .hd-table {
+        display: table;
+        .form-group {
+            display: table-cell;
+        }
+        .form-control {
+            width: 45%;
+        }
     }
+    .hd-table-row {
+        display: table-row;
+    }
+
+
+    .form-group {
+        white-space: nowrap;
+    }
+    .form-control {
+        display: inline-block;
+        width: 80%;
+    }
+
+
 
     .fix-hd-table {
         width: 100%;

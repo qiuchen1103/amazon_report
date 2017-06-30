@@ -1,10 +1,3 @@
-.m-report-ctn .form-group {
-  white-space: nowrap;
-}
-.m-report-ctn .form-control {
-  display: inline-block;
-  width: 80%;
-}
 .m-report-ctn .report-t small {
   display: inline-block;
   margin: 0 10px;
@@ -13,8 +6,24 @@
   font-size: 12px;
   font-weight: normal;
 }
-.m-report-ctn .hd-opt {
+.m-report-ctn .hd-table {
+  display: table;
+}
+.m-report-ctn .hd-table .form-group {
+  display: table-cell;
+}
+.m-report-ctn .hd-table .form-control {
+  width: 45%;
+}
+.m-report-ctn .hd-table-row {
+  display: table-row;
+}
+.m-report-ctn .form-group {
+  white-space: nowrap;
+}
+.m-report-ctn .form-control {
   display: inline-block;
+  width: 80%;
 }
 .m-report-ctn .fix-hd-table {
   width: 100%;
