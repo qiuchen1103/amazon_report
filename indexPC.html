@@ -259,6 +259,8 @@
                 </div>
             </div>
         </section>
+
+
         <section class="j-render-ctn">
             <div class="fix-wrap">
                 <table-vue class="fix-center j-fix-center"
@@ -311,7 +313,7 @@
                         <tr v-for="m in row">
                             <td v-if="!right" v-for="(fixValue, fixKey) in fix">
                                 <template v-if="fixValue == 'id'">
-                                    
+
                                 </template>
                                 <template v-else>
                                     {{ctn[m-1] ? ctn[m-1][fixKey] : ''}}
