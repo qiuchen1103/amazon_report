@@ -293,9 +293,12 @@
                             <th :colspan="col" v-for="n in 1" :class="{'visibility-none': left||right}">{{n + '第一列长头'}}</th>
                         </tr>
                         <tr class="info">
-                            <td v-if="!right" v-for="(fixValue, fixKey) in fix">
+                            <th v-if="!right">
+                                序号
+                            </th>
+                            <th v-if="!right" v-for="(fixValue, fixKey) in fix">
                                 {{fixValue}}
-                            </td>
+                            </th>
                             <th v-for="sortValue in sort" :class="{'visibility-none': left||right}">{{sortValue}}</th>
                         </tr>
                     </tbody>
@@ -307,7 +310,12 @@
                     <tbody>
                         <tr v-for="m in row">
                             <td v-if="!right" v-for="(fixValue, fixKey) in fix">
-                                {{ctn[m-1] ? ctn[m-1][fixKey] : ''}}
+                                <template v-if="fixValue == 'id'">
+                                    
+                                </template>
+                                <template v-else>
+                                    {{ctn[m-1] ? ctn[m-1][fixKey] : ''}}
+                                </template>
                             </td>
                             <td v-for="(sortValue, sortKey) in sort" :class="{'visibility-none': left||right}">{{ctn[m-1] ? ctn[m-1][sortKey] : ''}}</td>
                         </tr>
@@ -415,6 +423,7 @@
 
                         self.$nextTick(function() {
                             self.bindEvent();
+                            self.bindTd();
                         })
                     })
                     .fail(function() {
@@ -452,9 +461,20 @@
                 // 列表项的hover和点击
                 bindTd: function() {
                     $('.j-fix-center td').hover(function() {
-                        /* Stuff to do when the mouse enters the element */
+                        // 列背景
+                        var e = $(this).prevAll().length+1,
+                        t = $(this).closest("tr").prevAll().length+1;
+                        if (e>1) {
+                            $(this).closest("table").find("tr:lt(" + t + ") > td:nth-child(" + e + ")").addClass("col-highlight");
+                        }
+
+                        // 左悬浮的行背景
+                        console.log($(this).closest("tr").index());
+                        var rowIndex = $(this).closest("tr").index();
+                        $('#j-scroll-left tr').eq(rowIndex).addClass('row-highlight');
                     }, function() {
-                        /* Stuff to do when the mouse leaves the element */
+                        $(this).closest("table").find("tr > .col-highlight").removeClass("col-highlight");
+                        $('#j-scroll-left tr.row-highlight').removeClass('row-highlight');
                     });
                 }
             }
