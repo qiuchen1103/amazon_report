@@ -1,0 +1,1730 @@
+{% extends "layout/base.html" %}
+
+{% block title %}
+综合报表(父)
+{% end %}
+
+{% block head-css %}
+<!-- 引入样式 -->
+<!-- 引入组件库 -->
+
+<style lang="css">
+    .highlight-click {
+        background-color: #edf7ff;
+        opacity: 0.9;
+    }
+
+    .highlight-hover {
+        background-color: #edf7ff !important;
+        opacity: 0.9;
+    }
+
+    .table-responsive {
+        max-height: .01%;
+        overflow: auto;
+        max-height: 600px;
+    }
+
+    .fht-fixed-column table {
+        margin-top: 0.5px;
+    }
+
+    .fht-fixed-column .fht-tbody {
+        background-color: #dfe6ec;
+        border: 1px solid rgb(221, 221, 221);
+
+    }
+
+    table {
+        font-size: small !important;
+    }
+</style>
+<link rel="stylesheet" href="{{ static_url('dist/css/column_setting.css') }}">
+
+<link rel="stylesheet" href="{{ static_url('dist/css/column_setting_new.css') }}">
+{% end %}
+
+{% block content %}
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        数据报表
+        <small>综合报表(父)</small>
+    </h1>
+</section>
+
+
+<!-- Main content -->
+<!-- Main content -->
+<section class="content">
+    <div id="app">
+        <div class="row">
+
+            <form id="base" class="col m12" v-show="showBase" action="{{ reverse_url('synthetical_parent_report') }}">
+                <input name="action" value="page" type="text" hidden>
+                <input name="date_range" value="" type="text" hidden>
+                <div class="input-field col m2">
+                    <select name="shop">
+                        <option value="" selected>全部</option>
+                        {% for shop in  shop_list %}
+                        <option value={{ shop }}>{{ shop }}</option>
+                        {% end %}
+                    </select>
+                    <label>店铺</label>
+                </div>
+                <div class="input-field col m2">
+                    <select name="charger">
+                        <option value="" selected>全部</option>
+                        {% for charger in  charger_list %}
+                        <option value={{ charger }}>{{ charger }}</option>
+                        {% end %}
+                    </select>
+                    <label>负责人</label>
+                </div>
+                <div class="input-field col m2">
+                    <input placeholder="ASIN父" id="asinf" name='asinf' type="text" class="validate">
+                    <label for="asinf">ASIN父</label>
+                </div>
+                <div class="input-field col m2">
+                    <select name="summary_period" id="summary_period">
+                        <option value="custom">自定义</option>
+                        <option value="day">日</option>
+                        <option value="month">月</option>
+                        <option value="week" selected>周</option>
+                    </select>
+                    <label>统计周期</label>
+                </div>
+
+                <div class="input-field col m2" id="date_range">
+                    <template>
+                        <div class="block">
+                            <el-date-picker
+                                    v-model="date_range"
+                                    type="daterange"
+                                    align="right"
+                                    placeholder="时间范围"
+                                    :picker-options="pickerOptions2">
+                            </el-date-picker>
+                        </div>
+                    </template>
+                </div>
+                <div class="input-field col m1">
+                    <a class="waves-effect waves-light btn"
+                       onclick="if($('[name=shop]:eq(0)').val()){ $('[name=date_range]:eq(0)').val($('[placeholder=时间范围]:eq(0)').val());$('[name=action]:eq(0)').val('export');$('#base').submit() }else{alert('必选店铺!')}">导出</a>
+                </div>
+                <div class="input-field col m1">
+                    <a class="waves-effect waves-light btn"
+                       onclick="$('[name=date_range]:eq(0)').val($('[placeholder=时间范围]:eq(0)').val());$('[name=action]:eq(0)').val('page');$('#base').submit();">搜索</a>
+                </div>
+                <div class="input-field col m1">
+                    <a class="waves-effect waves-light red-text text-accent-3" @click="showBase=false;showAdvance=true">高级搜索</a>
+                </div>
+                <div class="input-field col m1">
+                    <a class="waves-effect waves-light red-text text-accent-3"
+                       @click="showMultiple=!showMultiple;">批量操作</a>
+                </div>
+            </form>
+
+            <!-- 高级搜索 -->
+            <form id="advance" class="col row" v-show="showAdvance"
+                  action="{{ reverse_url('synthetical_parent_report') }}">
+                <input name="action" value="page" type="text" hidden>
+                <input name="date_range" value="" type="text" hidden>
+                <div class="input-field col m2">
+                    <select name="shop">
+                        <option value="" selected>全部</option>
+                        {% for shop in  shop_list %}
+                        <option value={{ shop }}>{{ shop }}</option>
+                        {% end %}
+                    </select>
+                    <label>店铺</label>
+                </div>
+                <div class="input-field col m2">
+                    <select name="charger">
+                        <option value="" selected>全部</option>
+                        {% for charger in  charger_list %}
+                        <option value={{ charger }}>{{ charger }}</option>
+                        {% end %}
+                    </select>
+                    <label>负责人</label>
+                </div>
+                <div class="input-field col m2">
+                    <input placeholder="ASIN父" id="asinf" name='asinf' type="text" class="validate">
+                    <label for="asinf">ASIN父</label>
+                </div>
+                <div class="input-field col m2">
+                    <select name="summary_period" id="summary_period">
+                        <option value="custom">自定义</option>
+                        <option value="day">日</option>
+                        <option value="month">月</option>
+                        <option value="week" selected>周</option>
+                    </select>
+                    <label>统计周期</label>
+                </div>
+
+                <div class="input-field col m2" id="date_range">
+                    <template>
+                        <div class="block">
+                            <el-date-picker
+                                    v-model="date_range"
+                                    type="daterange"
+                                    align="right"
+                                    placeholder="时间范围"
+                                    :picker-options="pickerOptions2">
+                            </el-date-picker>
+                        </div>
+                    </template>
+                </div>
+                <div class="input-field col m2">
+                    <select name="asinf_tag">
+                        <option value="" selected>全部</option>
+                        <template v-for="(text,tag) in options">
+                            <option :value="tag">${text}
+                            </option>
+                        </template>
+                    </select>
+                    <label>标签</label>
+                </div>
+
+                <div class="input-field col m2">
+                    <input placeholder="备注" id="asinf_note" name="asinf_note" type="text" class="validate">
+                    <label for="comment">备注</label>
+                </div>
+                <div class="input-field col m2">
+                    <input placeholder="供应商" id="supplier" name="supplier" type="text" class="validate">
+                    <label for="supplier">供应商</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="销量 min" id="minSales_count" name="minSales_count" type="text"
+                           class="validate">
+                    <label for="minSales_count">销量 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="销量 max" id="maxSales_count" name="maxSales_count" type="text"
+                           class="validate">
+                    <label for="maxSales_count">销量 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="销售额 min" id="minSales" name="minSales" type="text" class="validate">
+                    <label for="minSales">销售额 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="销售额 max" id="maxSales" name="maxSales" type="text" class="validate">
+                    <label for="maxSales">销售额 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="利润 min" id="minGain" name="minGain" type="text" class="validate">
+                    <label for="minGain">利润 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="利润 max" id="maxGain" name="maxGain" type="text" class="validate">
+                    <label for="maxGain">利润 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="广告 min" id="minAdCost" name="minAdCost" type="text" class="validate">
+                    <label for="minAdCost">广告 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="广告 max" id="maxAdCost" name="maxAdCost" type="text" class="validate">
+                    <label for="maxAdCost">广告 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="转化(%) min" id="minUnitSession" name="minUnitSession" type="text"
+                           class="validate">
+                    <label for="minUnitSession">转化(%) min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="转化(%) max" id="maxUnitSession" name="maxUnitSession" type="text"
+                           class="validate">
+                    <label for="maxUnitSession">转化(%) max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="利润(%) min" id="minGainRate" name="minGainRate" type="text" class="validate">
+                    <label for="minGainRate">利润(%) min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="利润(%) max" id="maxGainRate" name="maxGainRate" type="text" class="validate">
+                    <label for="maxGainRate">利润(%) max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退款额 min" id="minRefund" name="minRefund" type="text" class="validate">
+                    <label for="minRefund">退款额 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退款额 max" id="maxRefund" name="maxRefund" type="text" class="validate">
+                    <label for="maxRefund">退款额 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退款量 min" id="minQuantity" name="minQuantity" type="text" class="validate">
+                    <label for="minQuantity">退款量 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退款量 max" id="maxQuantity" name="maxQuantity" type="text" class="validate">
+                    <label for="maxQuantity">退款量 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="广告占比 min" id="minAdRate" name="minAdRate" type="text" class="validate">
+                    <label for="minAdRate">广告占比 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="广告占比 max" id="maxAdRate" name="maxAdRate" type="text" class="validate">
+                    <label for="maxAdRate">广告占比 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="库存 min" id="minStock_s" name="minStock_s" type="text" class="validate">
+                    <label for="minStock_s">库存 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="库存 max" id="maxStock_s" name="maxStock_s" type="text" class="validate">
+                    <label for="maxStock_s">库存 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退货 min" id="minReturnGoods" name="minReturnGoods" type="text"
+                           class="validate">
+                    <label for="minReturnGoods">退货 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="退货 max" id="maxReturnGoods" name="maxReturnGoods" type="text"
+                           class="validate">
+                    <label for="maxReturnGoods">退货 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="FBA备货 min" id="minFBAStock" name="minFBAStock" type="text" class="validate">
+                    <label for="minFBAStock">FBA备货 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="FBA备货 max" id="maxFBAStock" name="maxFBAStock" type="text" class="validate">
+                    <label for="maxFBAStock">FBA备货 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="105库存 min" id="minStock105BC" name="minStock105BC" type="text"
+                           class="validate">
+                    <label for="minStock105BC">105库存 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="105库存 max" id="maxStock105BC" name="maxStock105BC" type="text"
+                           class="validate">
+                    <label for="maxStock105BC">105库存 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="存销比 min" id="minStockOrder" name="minStockOrder" type="text"
+                           class="validate">
+                    <label for="minStockOrder">存销比 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="存销比 max" id="maxStockOrder" name="maxStockOrder" type="text"
+                           class="validate">
+                    <label for="maxStockOrder">存销比 max</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="星级 min" id="minRating" name="minRating" type="text" class="validate">
+                    <label for="minRating">星级 min</label>
+                </div>
+                <div class="input-field col m1">
+                    <input placeholder="星级 max" id="maxRating" name="maxRating" type="text" class="validate">
+                    <label for="maxRating">星级 max</label>
+                </div>
+                <div class="input-field col m2">
+                    <input type="checkbox" id="on_shelf" name="on_shelf">
+                    <label for="on_shelf">是否包含上下架</label>
+                </div>
+                <div class="col m12">
+                    <div class="input-field col m1">
+                        <a class="waves-effect waves-light btn"
+                           onclick="$('[name=date_range]:eq(1)').val($('[placeholder=时间范围]:eq(1)').val());$('[name=action]:eq(1)').val('page');$('#advance').submit();">搜索</a>
+                    </div>
+
+                    <div class="input-field col m1">
+                        <a class="waves-effect waves-light btn"
+                           onclick="if($('[name=shop]:eq(1)').val()){ $('[name=date_range]:eq(1)').val($('[placeholder=时间范围]:eq(1)').val());$('[name=action]:eq(1)').val('export');$('#base').submit() }else{alert('必选店铺!')}">导出</a>
+                    </div>
+                    <div class="input-field col m1">
+                        <a class="waves-effect waves-light red-text text-accent-3"
+                           @click="showBase=true;showAdvance=false;">普通搜索</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- 批量操作 -->
+            <div id="multiple" v-show="showMultiple">
+                <div class="row">
+                    <div class="input-field col m1" style="width:100px;">
+                        <label>标签：</label>
+                    </div>
+                    <div class="input-field col m2">
+                        <select multiple onchange="multi_update_tag($(this).val())">
+                            <option value="" disabled selected>Choose your option</option>
+                            <template v-for="(text,tag) in options">
+                                <option :value="tag">${text}
+                                </option>
+                            </template>
+                        </select>
+                    </div>
+                    <div class="input-field col m2">
+                        <input type="checkbox" id="multi_clear_tag" name="multi_clear_tag"
+                               onclick="multi_clear_tag($(this).prop('checked'))">
+                        <label for="multi_clear_tag">批量清除标签</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col m1" style="width:100px;">
+                        <label>备注：</label>
+                    </div>
+                    <div class="input-field col m1">
+                        <input placeholder="备注" id="note" type="text" name="note" v-model="note" class="validate"
+                               @blur="multi_note(note)">
+                    </div>
+                    <div class="input-field col m2">
+                        <input type="checkbox" id="multi_clear_note" name="multi_clear_note" v-model="check_status"
+                               @click="multi_clear_note">
+                        <label for="multi_clear_note">批量清除备注</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据选择 -->
+            <div class="theme-config">
+                <div id="setting_show" class="theme-config-box">
+                    <div class="spin-icon" id="setting">
+                        <i class="fa fa-cogs fa-spin"></i>
+                    </div>
+                    <div class="skin-settings" style="height: 700px;overflow: scroll">
+                        <div class="title">选择显示列 <br>
+                            <a class="waves-effect waves-light btn-sm" id="to_setting">确定</a>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        ASIN-父
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_asinf" class="onoffswitch-checkbox"
+                                           id="set_asinf" :checked="setting.set_asinf">
+                                    <label class="onoffswitch-label" for="set_asinf">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        图片
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_bi_img_url" class="onoffswitch-checkbox"
+                                           id="set_bi_img_url" :checked="setting.set_bi_img_url">
+                                    <label class="onoffswitch-label" for="set_bi_img_url">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        分类
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_catpath" class="onoffswitch-checkbox"
+                                           id="set_catpath" :checked="setting.set_catpath">
+                                    <label class="onoffswitch-label" for="set_catpath">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        负责人
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_charger" class="onoffswitch-checkbox"
+                                           id="set_charger" :checked="setting.set_charger">
+                                    <label class="onoffswitch-label" for="set_charger">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setings-item">
+                    <span>
+                        重量
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_bi_weight" class="onoffswitch-checkbox"
+                                           id="set_bi_weight" :checked="setting.set_bi_weight">
+                                    <label class="onoffswitch-label" for="set_bi_weight">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        成本
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_bi_cost" class="onoffswitch-checkbox"
+                                           id="set_bi_cost" :checked="setting.set_bi_cost">
+                                    <label class="onoffswitch-label" for="set_bi_cost">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        上架日期
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_onsaledatenum" class="onoffswitch-checkbox"
+                                           id="set_onsaledatenum" :checked="setting.set_onsaledatenum">
+                                    <label class="onoffswitch-label" for="set_onsaledatenum">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        预备库存
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_afninboundworkingquantity"
+                                           class="onoffswitch-checkbox"
+                                           id="set_afninboundworkingquantity"
+                                           :checked="setting.set_afninboundworkingquantity">
+                                    <label class="onoffswitch-label" for="set_afninboundworkingquantity">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        可售库存
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_afnfulfillablequantity"
+                                           class="onoffswitch-checkbox"
+                                           id="set_afnfulfillablequantity"
+                                           :checked="setting.set_afnfulfillablequantity">
+                                    <label class="onoffswitch-label" for="set_afnfulfillablequantity">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        在途库存
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_afninboundshippedquantity"
+                                           class="onoffswitch-checkbox"
+                                           id="set_afninboundshippedquantity"
+                                           :checked="setting.set_afninboundshippedquantity">
+                                    <label class="onoffswitch-label" for="set_afninboundshippedquantity">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        合计库存
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_all_inventary" class="onoffswitch-checkbox"
+                                           id="set_all_inventary" :checked="setting.set_all_inventary">
+                                    <label class="onoffswitch-label" for="set_all_inventary">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        105库存
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_bi_stock105areabc" class="onoffswitch-checkbox"
+                                           id="set_bi_stock105areabc" :checked="setting.set_bi_stock105areabc">
+                                    <label class="onoffswitch-label" for="set_bi_stock105areabc">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        流量
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_sessions" class="onoffswitch-checkbox"
+                                           id="set_sessions" :checked="setting.set_sessions">
+                                    <label class="onoffswitch-label" for="set_sessions">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        销量
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_sales" class="onoffswitch-checkbox"
+                                           id="set_sales" :checked="setting.set_sales">
+                                    <label class="onoffswitch-label" for="set_sales">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        销售额
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_orderedproductsales" class="onoffswitch-checkbox"
+                                           id="set_orderedproductsales" :checked="setting.set_orderedproductsales">
+                                    <label class="onoffswitch-label" for="set_orderedproductsales">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        转化率
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_unitsessionpercent" class="onoffswitch-checkbox"
+                                           id="set_unitsessionpercent" :checked="setting.set_unitsessionpercent">
+                                    <label class="onoffswitch-label" for="set_unitsessionpercent">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        售价
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_sale_price" class="onoffswitch-checkbox"
+                                           id="set_sale_price" :checked="setting.set_sale_price">
+                                    <label class="onoffswitch-label" for="set_sale_price">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="setings-item">
+                    <span>
+                        广告
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_total_spend" class="onoffswitch-checkbox"
+                                           id="set_total_spend" :checked="setting.set_total_spend">
+                                    <label class="onoffswitch-label" for="set_total_spend">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        广告占比
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_adrate" class="onoffswitch-checkbox"
+                                           id="set_adrate" :checked="setting.set_adrate">
+                                    <label class="onoffswitch-label" for="set_adrate">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        销售成本
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_selling_cost" class="onoffswitch-checkbox"
+                                           id="set_selling_cost" :checked="setting.set_selling_cost">
+                                    <label class="onoffswitch-label" for="set_selling_cost">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        亚马逊提点
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_amazon_rate" class="onoffswitch-checkbox"
+                                           id="set_amazon_rate" :checked="setting.set_amazon_rate">
+                                    <label class="onoffswitch-label" for="set_amazon_rate">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        运费
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_transportation_expense"
+                                           class="onoffswitch-checkbox"
+                                           id="set_transportation_expense"
+                                           :checked="setting.set_transportation_expense">
+                                    <label class="onoffswitch-label" for="set_transportation_expense">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        利润
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_totalgain" class="onoffswitch-checkbox"
+                                           id="set_totalgain" :checked="setting.set_totalgain">
+                                    <label class="onoffswitch-label" for="set_totalgain">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        利润率
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_gainrate" class="onoffswitch-checkbox"
+                                           id="set_gainrate" :checked="setting.set_gainrate">
+                                    <label class="onoffswitch-label" for="set_gainrate">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        退款额
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_refund" class="onoffswitch-checkbox"
+                                           id="set_refund" :checked="setting.set_refund">
+                                    <label class="onoffswitch-label" for="set_refund">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        申请退货
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_returnquantity" class="onoffswitch-checkbox"
+                                           id="set_returnquantity" :checked="setting.set_returnquantity">
+                                    <label class="onoffswitch-label" for="set_returnquantity">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        实际退货
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_quantity" class="onoffswitch-checkbox"
+                                           id="set_quantity" :checked="setting.set_quantity">
+                                    <label class="onoffswitch-label" for="set_quantity">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        计提
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_accrual" class="onoffswitch-checkbox"
+                                           id="set_accrual" :checked="setting.set_accrual">
+                                    <label class="onoffswitch-label" for="set_accrual">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setings-item">
+                    <span>
+                        评论数
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_reviewnum" class="onoffswitch-checkbox"
+                                           id="set_reviewnum" :checked="setting.set_reviewnum">
+                                    <label class="onoffswitch-label" for="set_reviewnum">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+                    <span>
+                        评分
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_avgrating" class="onoffswitch-checkbox"
+                                           id="set_avgrating" :checked="setting.set_avgrating">
+                                    <label class="onoffswitch-label" for="set_avgrating">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="setings-item">
+
+
+                    <span>
+                        排名
+                    </span>
+
+                            <div class="switch">
+                                <div class="onoffswitch">
+                                    <input type="checkbox" name="set_goodssort" class="onoffswitch-checkbox"
+                                           id="set_goodssort" :checked="setting.set_goodssort">
+                                    <label class="onoffswitch-label" for="set_goodssort">
+                                        <span class="onoffswitch-inner"></span>
+                                        <span class="onoffswitch-switch"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="row">
+            <div>
+                <template>
+                    <el-table
+                            :data="tableData3"
+                            ref="multipleTable"
+                            @selection-change="handleSelectionChange"
+                            @sort-change="handleSortChange"
+                            border
+                            style="width: 100%"
+                            max-height="650"
+                    >
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
+                        <el-table-column type="index" width="55" fixed>
+                        </el-table-column>
+                        <el-table-column
+                                sortable='custom'
+                                fixed
+                                prop="shop"
+                                label="店铺"
+                                width="100"
+                        >
+                            <template scope="scope">
+                                <el-popover trigger="hover" placement="top">
+                                    <p>asinf: ${ scope.row.asinf }</p>
+                                    <p>asinf_note: ${ scope.row.asinf_note }</p>
+                                    <p>asinf_tag: ${ scope.row.asinf_tag }</p>
+                                    <div slot="reference" class="name-wrapper">
+                                        <el-tag>${ scope.row.shop }</el-tag>
+                                    </div>
+                                </el-popover>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="基础数据">
+                            <el-table-column v-if="setting.set_asinf"
+                                             sortable='custom'
+                                             prop="asinf"
+                                             label="ASIN-父"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_bi_img_url"
+                                             label="图片"
+                                             width="90">
+                                <template scope="scope">
+                                    <div slot="reference" class="name-wrapper">
+                                        <img :src="scope.row.bi_img_url" alt="" width="50px" height="70px">
+                                    </div>
+
+
+                                </template>
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_catpath"
+                                             sortable='custom'
+                                             prop="catpath"
+                                             label="分类"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_charger"
+                                             sortable='custom'
+                                             prop="charger"
+                                             label="负责人"
+                                             width="90">
+                            </el-table-column>
+
+                            <el-table-column v-if="setting.set_bi_weight"
+                                             sortable='custom'
+                                             prop="bi_weight"
+                                             label="重量"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_bi_cost"
+                                             sortable='custom'
+                                             prop="bi_cost"
+                                             label="成本"
+                                             width="90">
+                            </el-table-column>
+
+                            <el-table-column v-if="setting.set_onsaledatenum"
+                                             sortable='custom'
+                                             prop="onsaledatenum"
+                                             label="上架日期"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_afninboundworkingquantity"
+                                             sortable='custom'
+                                             prop="afninboundworkingquantity"
+                                             label="预备库存"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_afnfulfillablequantity"
+                                             sortable='custom'
+                                             prop="afnfulfillablequantity"
+                                             label="可售库存"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_afninboundshippedquantity"
+                                             sortable='custom'
+                                             prop="afninboundshippedquantity"
+                                             label="在途库存"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_all_inventary"
+                                             sortable='custom'
+                                             prop="all_inventary"
+                                             label="合计库存"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_bi_stock105areabc"
+                                             sortable='custom'
+                                             prop="bi_stock105areabc"
+                                             label="105库存"
+                                             width="90">
+                            </el-table-column>
+                        </el-table-column>
+                        {% for head,i in head_to_i.items() %}
+
+
+                        <el-table-column label="{{ head }}">
+                            <el-table-column v-if="setting.set_sessions"
+                                             sortable='custom'
+                                             prop="sessions_{{ i }}"
+                                             label="流量"
+                                             width="90"
+                            >
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_sales"
+                                             sortable='custom'
+                                             prop="sales_{{ i }}"
+                                             label="销量"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_orderedproductsales"
+                                             sortable='custom'
+                                             prop="orderedproductsales_{{ i }}"
+                                             label="销售额"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_unitsessionpercent"
+                                             sortable='custom'
+                                             prop="unitsessionpercent_{{ i }}"
+                                             label="转化率"
+                                             width="90">
+                                {#                                <template scope="scope">#}
+                                {#                                    <div slot="reference" class="name-wrapper">#}
+                                {#                                        ${ (scope.row.sessions_{{ i }} ? (scope.row.sales_{{ i }} /#}
+                                {#                                        scope.row.sessions_{{ i }})  : scope.row.sessions_{{ i }}) | convert2 }#}
+                                {#                                    </div>#}
+                                {##}
+                                {##}
+                                {#                                </template>#}
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_sale_price"
+                                             sortable='custom'
+                                             prop="sale_price_{{ i }}"
+                                             label="售价"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_total_spend"
+                                             sortable='custom'
+                                             prop="total_spend_{{ i }}"
+                                             label="广告"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_adrate"
+                                             sortable='custom'
+                                             prop="adrate_{{ i }}"
+                                             label="广告占比"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_selling_cost"
+                                             sortable='custom'
+                                             prop="selling_cost_{{ i }}"
+                                             label="销售成本"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_amazon_rate"
+                                             sortable='custom'
+                                             prop="amazon_rate_{{ i }}"
+                                             label="亚马逊提点"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_transportation_expense"
+                                             sortable='custom'
+                                             prop="transportation_expense_{{ i }}"
+                                             label="运费"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_totalgain"
+                                             sortable='custom'
+                                             prop="totalgain_{{ i }}"
+                                             label="利润"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_gainrate"
+                                             sortable='custom'
+                                             prop="gainrate_{{ i }}"
+                                             label="利润率"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_refund"
+                                             sortable='custom'
+                                             prop="refund_{{ i }}"
+                                             label="退款额"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_returnquantity"
+                                             sortable='custom'
+                                             prop="returnquantity_{{ i }}"
+                                             label="申请退货"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_quantity"
+                                             sortable='custom'
+                                             prop="quantity_{{ i }}"
+                                             label="实际退货"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_accrual"
+                                             sortable='custom'
+                                             prop="accrual_{{ i }}"
+                                             label="计提"
+                                             width="90">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_reviewnum"
+                                             sortable='custom'
+                                             prop="reviewnum"
+                                             label="评论数"
+                                             width="100">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_avgrating"
+                                             sortable='custom'
+                                             prop="avgrating"
+                                             label="评分"
+                                             width="120">
+                            </el-table-column>
+                            <el-table-column v-if="setting.set_goodssort"
+                                             sortable='custom'
+                                             prop="goodssort"
+                                             label="排名"
+                                             width="100">
+                            </el-table-column>
+                        </el-table-column>
+                        {% end %}
+
+
+                        <el-table-column
+                                fixed="right"
+                                label="标签"
+                                width="90">
+                            <template scope="scope">
+                                <el-popover trigger="click" placement="top">
+                                    <input type="text" name="cache_scope_row_asinf" v-model="scope.row.asinf" hidden>
+                                    <select id="testf" multiple
+                                            onchange="update_tag($(this).parent().prev('[name=cache_scope_row_asinf]').val(),$(this).val())">
+                                        <option value="" disabled selected>Choose your option</option>
+                                        <template v-for="(text,tag) in options">
+                                            <option :value="tag" v-if="scope.row.asinf_tag.indexOf(tag)!=-1"
+                                                    selected>
+                                                ${text}
+                                            </option>
+                                            <option :value="tag" v-if="scope.row.asinf_tag.indexOf(tag)==-1">${text}
+                                            </option>
+                                        </template>
+                                    </select>
+                                    <div slot="reference" class="name-wrapper">
+                                        <el-button size="small">标签</el-button>
+                                    </div>
+                                </el-popover>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                fixed="right"
+                                label="备注"
+                                width="90">
+                            <template scope="scope">
+
+                                <el-button size="small" @click="open3(scope.row)">备注</el-button>
+
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+        </div>
+
+
+
+        <div>
+            <li role="separator" style="margin-top: 0px;color: #d8d3d3;" class="divider"></li>
+        </div>
+
+
+
+        <!-- 页码 -->
+        <div class="row" style="margin-top: 5px;">
+            <div class="col m2 push-m7">
+                <template>
+                    <div class="block">
+                        <el-pagination @size-change="handleSizeChange"
+                                       @current-change="handleCurrentChange"
+                                       :current-page="currentPage" :page-sizes="[50, 100, 150, 200]"
+                                       :page-size="{{ num }}"
+                                       layout="total, sizes, prev, pager, next, jumper" :total="{{ sum_num }}">
+                        </el-pagination>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+{% end %}
+<!-- page script -->
+{% block bottom-js %}
+<script>
+    var app = new Vue({
+        delimiters: ['${', '}'],
+        el: '#app',
+        methods: {
+            filterTag: function (value, row) {
+                return row.tag === value;
+            },
+            handleSizeChange: function (val) {
+                var path = '';
+                if (window.location.href.indexOf('num=') != -1) {
+                    path = window.location.href.replace(/num=\d*/g, 'num=' + val)
+                } else {
+                    path = window.location.href + '&num=' + val;
+                }
+                window.location.href = path;
+            },
+            handleCurrentChange: function (val) {
+                this.currentPage = val;
+                var path = '';
+                if (window.location.href.indexOf('page=') != -1) {
+                    path = window.location.href.replace(/page=\d*/g, 'page=' + val)
+                } else {
+                    path = window.location.href + '&page=' + val;
+                }
+                window.location.href = path;
+            },
+            handleSelectionChange: function (val) {
+                this.multipleSelection = val;
+            },
+            handleSortChange: function (obj) {
+                console.log(obj.order);
+                console.log(obj.prop);
+                var path = '';
+                if (window.location.href.indexOf('order_by=') != -1) {
+                    path = window.location.href.replace(/order_by=\w+/g, 'order_by=' + obj.prop);
+                    path = path.replace(/order=\w+/g, 'order=' + obj.order);
+                } else {
+                    path = window.location.href + '&order_by='+obj.prop+'&order=' + obj.order;
+                }
+                window.location.href = path;
+
+            },
+            multi_note: function (val) {
+                if (val) {
+                    var ret = [];
+                    _this = this;
+                    this.multipleSelection.forEach(function (e, i) {
+
+
+                        _this.$http.get('{{ reverse_url('synthetical_parent_report') }}?action=note&asinf=' + e.asinf + '&asinf_note=' + val).then(function (response) {
+
+                            // get body data
+                            if (response.body == 'success') {
+                                ret.push('success');
+                            } else {
+                                ret.push('error');
+                            }
+                        }, function (response) {
+                            ret.push('error');
+                        });
+                    });
+                    if (ret.indexOf('error') == -1) {
+                        this.multipleSelection.forEach(function (e, i) {
+                            e.asinf_note = val;
+                        });
+                        this.$message({
+                            type: 'success',
+                            message: 'success!批量备注成功！'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: 'error!批量备注失败！'
+                        });
+                    }
+                }
+            },
+            multi_clear_note: function () {
+                if (this.check_status) {
+                    var ret = [];
+                    _this = this;
+                    this.multipleSelection.forEach(function (e, i) {
+
+
+                        _this.$http.get('{{ reverse_url('synthetical_parent_report') }}?action=note&asinf=' + e.asinf + '&asinf_note= ').then(function (response) {
+
+                            // get body data
+                            if (response.body == 'success') {
+                                ret.push('success');
+                            } else {
+                                ret.push('error');
+                            }
+                        }, function (response) {
+                            ret.push('error');
+                        });
+                    });
+                    if (ret.indexOf('error') == -1) {
+                        this.multipleSelection.forEach(function (e, i) {
+                            e.asinf_note = '';
+                        });
+                        this.$message({
+                            type: 'success',
+                            message: 'success!批量备注成功！'
+                        });
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: 'error!批量备注失败！'
+                        });
+                    }
+                }
+            },
+            open3: function (row) {
+                this.$prompt('原备注：' + row.asinf_note + ' \t 新备注：', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(({value}) => {
+                    this.$http.get('{{ reverse_url('synthetical_parent_report') }}?action=note&asinf=' + row.asinf + '&asinf_note=' + value).then(response => {
+
+                        // get body data
+                        if (response.body == 'success') {
+                            row.asinf_note = value;
+                            this.$message({
+                                type: 'success',
+                                message: 'success! ,你的备注是: ' + value
+                            });
+                        } else {
+                            this.$message({
+                                type: 'error',
+                                message: '备注失败！'
+                            });
+                        }
+                    }, response => {
+                        this.$message({
+                            type: 'error',
+                            message: '备注失败！'
+                        });
+                    });
+
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '取消输入'
+                    });
+                });
+            },
+            test3: function () {
+                console.log(111);
+            },
+        },
+        data: {
+            pickerOptions2: {
+                shortcuts: [{
+                    text: '最近一周',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 900 * 24 * 7);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近一个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 900 * 24 * 30);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }, {
+                    text: '最近三个月',
+                    onClick(picker) {
+                        const end = new Date();
+                        const start = new Date();
+                        start.setTime(start.getTime() - 3600 * 900 * 24 * 90);
+                        picker.$emit('pick', [start, end]);
+                    }
+                }]
+            },
+            date_range: '',
+            showBase: true,
+            showAdvance: false,
+            showMultiple: false,
+            currentPage: {{ page }},
+            tableData3: {{ data }},
+            multipleSelection: [],
+            display_column: false,
+            show: true,
+            checked: true,
+            note: '',
+            options: {
+                'zi1': '质1',
+                'zi2': '质2',
+                'zi3': '质3',
+                'zu1': '转1',
+                'zu2': '转2',
+                'zu3': '转3',
+                'b1': '爆1',
+                'b2': '爆2',
+                'b3': '爆3',
+                'clear': '清仓',
+                'important': '重点'
+            },
+            check_status: false,
+            setting: {
+                'set_asinf': localStorage.getItem('synthetical_parent_report_set_asinf') == 'true' || !localStorage.getItem('synthetical_parent_report_set_asinf') ? true : false,
+                'set_catpath': localStorage.getItem('synthetical_parent_report_set_catpath') == 'true' || !localStorage.getItem('synthetical_parent_report_set_catpath') ? true : false,
+                'set_charger': localStorage.getItem('synthetical_parent_report_set_charger') == 'true' || !localStorage.getItem('synthetical_parent_report_set_charger') ? true : false,
+                'set_bi_stock105areabc': localStorage.getItem('synthetical_parent_report_set_bi_stock105areabc') == 'true' || !localStorage.getItem('synthetical_parent_report_set_bi_stock105areabc') ? true : false,
+                'set_bi_weight': localStorage.getItem('synthetical_parent_report_set_bi_weight') == 'true' || !localStorage.getItem('synthetical_parent_report_set_bi_weight') ? true : false,
+                'set_bi_cost': localStorage.getItem('synthetical_parent_report_set_bi_cost') == 'true' || !localStorage.getItem('synthetical_parent_report_set_bi_cost') ? true : false,
+                'set_bi_img_url': localStorage.getItem('synthetical_parent_report_set_bi_img_url') == 'true' || !localStorage.getItem('synthetical_parent_report_set_bi_img_url') ? true : false,
+                'set_onsaledatenum': localStorage.getItem('synthetical_parent_report_set_onsaledatenum') == 'true' || !localStorage.getItem('synthetical_parent_report_set_onsaledatenum') ? true : false,
+                'set_afninboundworkingquantity': localStorage.getItem('synthetical_parent_report_set_afninboundworkingquantity') == 'true' || !localStorage.getItem('synthetical_parent_report_set_afninboundworkingquantity') ? true : false,
+                'set_afnfulfillablequantity': localStorage.getItem('synthetical_parent_report_set_afnfulfillablequantity') == 'true' || !localStorage.getItem('synthetical_parent_report_set_afnfulfillablequantity') ? true : false,
+                'set_afninboundshippedquantity': localStorage.getItem('synthetical_parent_report_set_afninboundshippedquantity') == 'true' || !localStorage.getItem('synthetical_parent_report_set_afninboundshippedquantity') ? true : false,
+                'set_all_inventary': localStorage.getItem('synthetical_parent_report_set_all_inventary') == 'true' || !localStorage.getItem('synthetical_parent_report_set_all_inventary') ? true : false,
+                'set_sessions': localStorage.getItem('synthetical_parent_report_set_sessions') == 'true' || !localStorage.getItem('synthetical_parent_report_set_sessions') ? true : false,
+                'set_sales': localStorage.getItem('synthetical_parent_report_set_sales') == 'true' || !localStorage.getItem('synthetical_parent_report_set_sales') ? true : false,
+                'set_orderedproductsales': localStorage.getItem('synthetical_parent_report_set_orderedproductsales') == 'true' || !localStorage.getItem('synthetical_parent_report_set_orderedproductsales') ? true : false,
+                'set_unitsessionpercent': localStorage.getItem('synthetical_parent_report_set_unitsessionpercent') == 'true' || !localStorage.getItem('synthetical_parent_report_set_unitsessionpercent') ? true : false,
+                'set_sale_price': localStorage.getItem('synthetical_parent_report_set_sale_price') == 'true' || !localStorage.getItem('synthetical_parent_report_set_sale_price') ? true : false,
+                'set_total_spend': localStorage.getItem('synthetical_parent_report_set_total_spend') == 'true' || !localStorage.getItem('synthetical_parent_report_set_total_spend') ? true : false,
+                'set_adrate': localStorage.getItem('synthetical_parent_report_set_adrate') == 'true' || !localStorage.getItem('synthetical_parent_report_set_adrate') ? true : false,
+                'set_selling_cost': localStorage.getItem('synthetical_parent_report_set_selling_cost') == 'true' || !localStorage.getItem('synthetical_parent_report_set_selling_cost') ? true : false,
+                'set_amazon_rate': localStorage.getItem('synthetical_parent_report_set_amazon_rate') == 'true' || !localStorage.getItem('synthetical_parent_report_set_amazon_rate') ? true : false,
+                'set_transportation_expense': localStorage.getItem('synthetical_parent_report_set_transportation_expense') == 'true' || !localStorage.getItem('synthetical_parent_report_set_transportation_expense') ? true : false,
+                'set_totalgain': localStorage.getItem('synthetical_parent_report_set_totalgain') == 'true' || !localStorage.getItem('synthetical_parent_report_set_totalgain') ? true : false,
+                'set_gainrate': localStorage.getItem('synthetical_parent_report_set_gainrate') == 'true' || !localStorage.getItem('synthetical_parent_report_set_gainrate') ? true : false,
+                'set_refund': localStorage.getItem('synthetical_parent_report_set_refund') == 'true' || !localStorage.getItem('synthetical_parent_report_set_refund') ? true : false,
+                'set_returnquantity': localStorage.getItem('synthetical_parent_report_set_returnquantity') == 'true' || !localStorage.getItem('synthetical_parent_report_set_returnquantity') ? true : false,
+                'set_quantity': localStorage.getItem('synthetical_parent_report_set_quantity') == 'true' || !localStorage.getItem('synthetical_parent_report_set_quantity') ? true : false,
+                'set_accrual': localStorage.getItem('synthetical_parent_report_set_accrual') == 'true' || !localStorage.getItem('synthetical_parent_report_set_accrual') ? true : false,
+                'set_reviewnum': localStorage.getItem('synthetical_parent_report_set_reviewnum') == 'true' || !localStorage.getItem('synthetical_parent_report_set_reviewnum') ? true : false,
+                'set_avgrating': localStorage.getItem('synthetical_parent_report_set_avgrating') == 'true' || !localStorage.getItem('synthetical_parent_report_set_avgrating') ? true : false,
+                'set_goodssort': localStorage.getItem('synthetical_parent_report_set_goodssort') == 'true' || !localStorage.getItem('synthetical_parent_report_set_goodssort') ? true : false,
+            }
+        },
+        filters: {
+            convert2: function (price) {
+                if (isNaN(price)) {
+                    return price;
+                }
+                return (price * 100).toFixed(2).toString() + '%';
+            }
+        }
+    });
+</script>
+<script>
+    var tmp = '';
+    function to_update_tag(row_asinf, tag) {
+        $.get('{{ reverse_url('synthetical_parent_report') }}?action=tag&asinf=' + row_asinf + '&asinf_tag=' + tag, function (data) {
+            console.log(data);
+            if (data != 'success') {
+                alert('打标签失败！');
+            }
+        });
+    }
+    function update_tag(row_asinf, tag) {
+        console.log(row_asinf);
+        console.log(tag);
+        if (!tmp) {
+            var id = setTimeout(to_update_tag(row_asinf, tag), 850);
+            tmp = id;
+
+        } else {
+            clearTimeout(tmp);
+            var id = setTimeout(to_update_tag(row_asinf, tag), 850);
+            tmp = id;
+        }
+
+    }
+
+    var multi_tmp = '';
+    function multi_to_update_tag(multipleSelection, tag) {
+        var ret = [];
+        multipleSelection.forEach(function (e, i) {
+            $.get('{{ reverse_url('synthetical_parent_report') }}?action=tag&asinf=' + e.asinf + '&asinf_tag=' + tag, function (data) {
+                ret.push(data);
+                if (data != 'success') {
+                    alert('打标签失败！');
+                }
+            });
+        });
+        if (ret.indexOf('error') == -1) {
+            multipleSelection.forEach(function (e, i) {
+                console.log(i);
+                console.log(e.asinf_tag);
+                console.log(tag);
+                e.asinf_tag = tag;
+            })
+        }
+    }
+
+    function multi_update_tag(tag) {
+        if (!multi_tmp) {
+            var id = setTimeout(multi_to_update_tag(app.multipleSelection, tag), 850);
+            multi_tmp = id;
+
+        } else {
+            clearTimeout(multi_tmp);
+            var id = setTimeout(multi_to_update_tag(app.multipleSelection, tag), 850);
+            multi_tmp = id;
+        }
+
+    }
+
+    function multi_clear_tag(val) {
+        console.log(val);
+        if (val) {
+            multi_update_tag('');
+        }
+
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('select').material_select();
+        $('.el-pagination__jump input').css('margin-top', '-11px');
+        $('#setting').click(function () {
+            $("#setting_show").toggleClass('show');
+        });
+        $('#to_setting').click(function () {
+            $('#setting_show input').each(function (i, e) {
+                localStorage.setItem('synthetical_parent_report_' + $(e).attr('name'), $(e).prop("checked"));
+            });
+            location.reload();
+        });
+
+{#        $("table td").bind('click', function () {#}
+{#            if ($(this).hasClass('highlight-click')) {#}
+{#                $(this).removeClass('highlight-click');#}
+{#                $(this).siblings().removeClass('highlight-click');#}
+{#                if ($(this).parents('.fht-fixed-column').length > 0) {#}
+{#                    var index = $(this).parent().index();#}
+{#                    $(this).parents('.fht-fixed-column').next('.fht-fixed-body').find('.fht-tbody table.my-hover tbody tr:eq(' + index + ')').find('td').removeClass('highlight-click');#}
+{#                } else {#}
+{#                    var index = $(this).parent().index();#}
+{#                    $(this).parents('.fht-fixed-body').prev('.fht-fixed-column').find('.fht-tbody table.my-hover tr:eq(' + index + ')').find('td').removeClass('highlight-click');#}
+{#                }#}
+{#            } else {#}
+{#                $(this).addClass('highlight-click');#}
+{#                $(this).siblings().addClass('highlight-click');#}
+{#                if ($(this).parents('.fht-fixed-column').length > 0) {#}
+{#                    var index = $(this).parent().index();#}
+{#                    $(this).parents('.fht-fixed-column').next('.fht-fixed-body').find('.fht-tbody table.my-hover tbody tr:eq(' + index + ')').find('td').addClass('highlight-click');#}
+{#                } else {#}
+{#                    var index = $(this).parent().index();#}
+{#                    $(this).parents('.fht-fixed-body').prev('.fht-fixed-column').find('.fht-tbody table.my-hover tr:eq(' + index + ')').find('td').addClass('highlight-click');#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#        $("table td").hover(function () {#}
+{#            $(this).addClass('highlight-hover');#}
+{#            $(this).siblings().addClass('highlight-hover');#}
+{##}
+{#            var index = $(this).index();#}
+{#            $(this).parent().siblings().find('td:eq(' + index + ')').addClass('highlight-hover');#}
+{#            if ($(this).parents('.fht-fixed-column').length > 0) {#}
+{#                var index = $(this).parent().index();#}
+{#                $(this).parents('.fht-fixed-column').next('.fht-fixed-body').find('.fht-tbody table.my-hover tbody tr:eq(' + index + ')').find('td').addClass('highlight-hover');#}
+{#            } else {#}
+{#                var index = $(this).parent().index();#}
+{#                $(this).parents('.fht-fixed-body').prev('.fht-fixed-column').find('.fht-tbody table.my-hover tr:eq(' + index + ')').find('td').addClass('highlight-hover');#}
+{#            }#}
+{#        }, function () {#}
+{#            $(this).removeClass('highlight-hover');#}
+{#            $(this).siblings().removeClass('highlight-hover');#}
+{#            var index = $(this).index();#}
+{#            $(this).parent().siblings().find('td:eq(' + index + ')').removeClass('highlight-hover');#}
+{#            if ($(this).parents('.fht-fixed-column').length > 0) {#}
+{#                var index = $(this).parent().index();#}
+{#                $(this).parents('.fht-fixed-column').next('.fht-fixed-body').find('.fht-tbody table.my-hover tbody tr:eq(' + index + ')').find('td').removeClass('highlight-hover');#}
+{#            } else {#}
+{#                var index = $(this).parent().index();#}
+{#                $(this).parents('.fht-fixed-body').prev('.fht-fixed-column').find('.fht-tbody table.my-hover tr:eq(' + index + ')').find('td').removeClass('highlight-hover');#}
+{#            }#}
+{#        });#}
+{#        var tmp = 0;#}
+{#        $('table tr th').each(function (i, e) {#}
+{#            var index = $(this).index();#}
+{#            var colspan = parseInt($(this).attr('colspan'));#}
+{#            var color = $(this).attr('class').split(' ').slice(1).join(' ');#}
+{#            if (index == 0) {#}
+{#                var u = colspan;#}
+{#                $(this).parent().parent().parent().find('tbody').find('tr').find('td:lt(' + u + ')').addClass(color);#}
+{#                tmp = colspan;#}
+{#            } else {#}
+{#                var d = tmp - 1;#}
+{#                var u = colspan;#}
+{#                $(this).parent().parent().parent().find('tbody').find('tr').find('td:gt(' + d + '):lt(' + u + ')').addClass(color);#}
+{#                tmp += colspan;#}
+{#            }#}
+{##}
+{#        });#}
+{#        var colors = ['#f8bbd0 ', '#f3e5f5 ', '#e8eaf6', '#e8f5e9', '#eceff1'];#}
+{#        var j = 0;#}
+{#        $('table th').each(function (i, e) {#}
+{#            if (!$(this).hasClass('is-leaf')) {#}
+{#                $(this).css('background-color', colors[j % 5]);#}
+{#                $(this).find('div').css('background-color', colors[j % 5]);#}
+{#                j++;#}
+{#            }#}
+{#        });#}
+
+        function getFileName(path) {
+            var pos1 = path.lastIndexOf('/');
+            var pos2 = path.lastIndexOf('\\');
+            var pos = Math.max(pos1, pos2);
+            if (pos < 0) {
+                return path;
+            }
+            else {
+                return path.substring(pos + 1);
+            }
+        }
+
+        function getCookie(name) {
+            var c = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+            return c ? c[1] : undefined;
+        }
+
+        function file_template_choose() {
+            $("#upload_template_form_btn").text('uploading...').addClass('disabled');
+            var form_data = new FormData($('#upload_templateForm')[0]);
+            $.ajax({
+                url: '{{ reverse_url('upload_report') }}',
+                type: 'POST',
+                cache: false,
+                data: form_data,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    var str = $("#file_template").val();
+                    var fileName = getFileName(str);
+                    var fileExt = str.substring(str.lastIndexOf('.') + 1);
+                    if (['xlsx', 'xls', 'csv'].indexOf(fileExt.toLowerCase()) == -1) {
+                        $("#upload_template_form_btn").text('上传').removeClass('disabled');
+                        return false;
+                    }
+                }
+            }).done(function (res) {
+                $("#upload_template_form_btn").text('上传').removeClass('disabled');
+            }).fail(function (res) {
+                $("#upload_template_form_btn").text('上传').removeClass('disabled');
+                alert('上传失败,文件名格式错误且为csv文件!');
+            });
+        };
+
+        $("#file_template").change(function () {
+            file_template_choose();
+        });
+        $("#upload_template_form_btn").click(function () {
+            $('#file_template').click();
+
+        });
+
+    });
+
+</script>
+{% end %}
