@@ -7,481 +7,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AMAZON statistics</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/skin-my-black.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="dist/plugins/iCheck/flat/blue.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="dist/plugins/morris/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="dist/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="dist/plugins/datepicker/datepicker3.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="dist/plugins/daterangepicker/daterangepicker.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="dist/plugins/paging.css">
+    <link rel="stylesheet" href="dist/plugins/materialize/css/materialize.css">
+    <link rel="stylesheet" href="dist/plugins/element-ui/lib/theme-default/index.css">
     <link rel="stylesheet" type="text/css" href="css/main.min.css">
 </head>
 
 <body>
     <div class="container-fluid m-report-ctn j-report-ctn">
-        <header class="report-t">
-            <h3>数据报表<small>综合报表(父)</small></h3>
-        </header>
         <section class="report-hd">
+            <!-- 普通搜索 -->
             <div class="row">
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <label for="store">店铺</label>
-                        <select id="store">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                        </select>
+                <form>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="period">统计周期</label>
+                            <select id="period" name="summary_period">
+                                <option value="custom">自定义</option>
+                                <option value="day">日</option>
+                                <option value="month">月</option>
+                                <option value="week" selected>周</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-1">
-                    <div class="form-group">
-                        <label for="leader">负责人</label>
-                        <select id="leader">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                        </select>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <label for="time">时间范围</label>
+                            <input type="text" id="time" name="date_range" placeholder="时间范围">
+                          </div>
                     </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="ASIN">ASIN父</label>
-                        <input type="text" id="ASIN" placeholder="ASIN父">
-                      </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="period">统计周期</label>
-                        <select id="period">
-                              <option>自定义</option>
-                              <option>日</option>
-                              <option>周</option>
-                              <option>月</option>
-                        </select>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="ASIN">ASIN</label>
+                            <input type="text" id="ASIN" placeholder="ASIN父" name='asinf'>
+                          </div>
                     </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="form-group">
-                        <label for="time">时间范围</label>
-                        <input type="text" id="time" placeholder="时间范围">
-                      </div>
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary hd-opt">导出</button>
-                </div>
-                <div class="col-sm-1">
-                    <button class="btn btn-primary hd-opt">搜索</button>
-                </div>
-                <div v-show="!show.general" class="col-sm-1">
-                    <a @click="show.general=true" href="javascript:;" class="text-danger hd-opt">高级搜索</a>
-                </div>
-                <div v-show="show.general" class="col-sm-1">
-                    <a @click="show.general=false" href="javascript:;" class="text-danger hd-opt">普通搜索</a>
-                </div>
-                <div v-show="show.general" class="col-sm-1">
-                    <a  @click="show.batch=!show.batch" href="javascript:;" class="text-danger hd-opt">批量操作</a>
-                </div>
+
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary">搜索</button>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button class="btn btn-primary">导出</button>
+                    </div>
+                </form>
             </div>
-            <div class="hd-table" v-show="!show.general">
-                <div class="hd-table-row">
+        </section>
+        <section class="row">
+            <div class="col-sm-6 details-left">
+
+                <div class="col-sm-6">
+                    <a href="#">B01FQS7R</a>
+                    <img src="img/cvv-card.png" />
+                </div>
+                <div class="col-sm-6">
                     <div class="form-group">
                         <label for="tag">标签</label>
-                        <select class="table-input" id="tag">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
+                        <select id="tag">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4" selected>4</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="tip">备注</label>
-                        <input class="table-input" id="tip" placeholder="备注">
-                    </div>
-                    <div class="form-group">
-                        <label for="supplier">供应商</label>
-                        <input class="table-input" id="supplier" placeholder="供应商">
-                    </div>
-                    <div class="form-group">
-                        <label for="salesmin">销量min</label>
-                        <input class="table-input" id="salesmin" placeholder="销量min">
-                    </div>
-                    <div class="form-group">
-                        <label for="salesmax">销量max</label>
-                        <input class="table-input" id="salesmax" placeholder="销量max">
-                    </div>
-                    <div class="form-group">
-                        <label for="saleroommin">销售额min</label>
-                        <input class="table-input" id="saleroommin" placeholder="销售额min">
-                    </div>
-                    <div class="form-group">
-                        <label for="saleroommax">销售额max</label>
-                        <input class="table-input" id="saleroommax" placeholder="销售额max">
-                    </div>
-                    <div class="form-group">
-                        <label for="profitmin">利润min</label>
-                        <input class="table-input" id="profitmin" placeholder="利润min">
-                    </div>
-                    <div class="form-group">
-                        <label for="profitmax">利润max</label>
-                        <input class="table-input" id="profitmax" placeholder="利润max">
-                    </div>
-                    <div class="form-group">
-                        <label for="admin">广告min</label>
-                        <input class="table-input" id="admin" placeholder="广告min">
-                    </div>
-                    <div class="form-group">
-                        <label for="admax">广告max</label>
-                        <input class="table-input" id="admax" placeholder="广告max">
-                    </div>
-                </div>
-                <div class="hd-table-row">
-                    <div class="form-group">
-                        <label for="minUnitSession">转化(%) min</label>
-                        <input class="table-input" placeholder="转化(%) min" id="minUnitSession" name="minUnitSession" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxUnitSession">转化(%) max</label>
-                        <input class="table-input" placeholder="转化(%) max" id="maxUnitSession" name="maxUnitSession" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minGainRate">利润(%) min</label>
-                        <input class="table-input" placeholder="利润(%) min" id="minGainRate" name="minGainRate" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxGainRate">利润(%) max</label>
-                        <input class="table-input" placeholder="利润(%) max" id="maxGainRate" name="maxGainRate" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minRefund">退款额 min</label>
-                        <input class="table-input" placeholder="退款额 min" id="minRefund" name="minRefund" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxRefund">退款额 max</label>
-                        <input class="table-input" placeholder="退款额 max" id="maxRefund" name="maxRefund" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minQuantity">退款量 min</label>
-                        <input class="table-input" placeholder="退款量 min" id="minQuantity" name="minQuantity" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxQuantity">退款量 max</label>
-                        <input class="table-input" placeholder="退款量 max" id="maxQuantity" name="maxQuantity" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minAdRate">广告占比 min</label>
-                        <input class="table-input" placeholder="广告占比 min" id="minAdRate" name="minAdRate" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxAdRate">广告占比 max</label>
-                        <input class="table-input" placeholder="广告占比 max" id="maxAdRate" name="maxAdRate" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minStock_s">库存 min</label>
-                        <input class="table-input" placeholder="库存 min" id="minStock_s" name="minStock_s" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxStock_s">库存 max</label>
-                        <input class="table-input" placeholder="库存 max" id="maxStock_s" name="maxStock_s" type="text">
-                    </div>
-                </div>
-                <div class="hd-table-row">
-                    <div class="form-group">
-                        <label for="minReturnGoods">退货 min</label>
-                        <input class="table-input" placeholder="退货 min" id="minReturnGoods" name="minReturnGoods" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxReturnGoods">退货 max</label>
-                        <input class="table-input" placeholder="退货 max" id="maxReturnGoods" name="maxReturnGoods" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minFBAStock">FBA备货 min</label>
-                        <input class="table-input" placeholder="FBA备货 min" id="minFBAStock" name="minFBAStock" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxFBAStock">FBA备货 max</label>
-                        <input class="table-input" placeholder="FBA备货 max" id="maxFBAStock" name="maxFBAStock" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minStock105BC">105库存 min</label>
-                        <input class="table-input" placeholder="105库存 min" id="minStock105BC" name="minStock105BC" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxStock105BC">105库存 max</label>
-                        <input class="table-input" placeholder="105库存 max" id="maxStock105BC" name="maxStock105BC" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minStockOrder">存销比 min</label>
-                        <input class="table-input" placeholder="存销比 min" id="minStockOrder" name="minStockOrder" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxStockOrder">存销比 max</label>
-                        <input class="table-input" placeholder="存销比 max" id="maxStockOrder" name="maxStockOrder" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="minRating">星级 min</label>
-                        <input class="table-input" placeholder="星级 min" id="minRating" name="minRating" type="text">
-                    </div>
-                    <div class="form-group">
-                        <label for="maxRating">星级 max</label>
-                        <input class="table-input" placeholder="星级 max" id="maxRating" name="maxRating" type="text">
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="on_shelf" name="on_shelf">
-                        <label for="on_shelf">是否包含上下架</label>
-                    </div>
+                    <p>
+                        <div>
+                            备注：
+                        </div>
+                        <p>
+                            备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容备注内容
+                        </p>
+                    </p>
                 </div>
             </div>
-            <div class="hd-table hd-table-batch" v-show="show.batch">
-                <div class="hd-table-row">
-                    <div class="form-group">
-                        <label for="cleantag">标签</label>
-                        <select class="table-input" id="cleantag">
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="batch-tag" name="batch-tag">
-                        <label for="batch-tag">批量清除标签</label>
-                    </div>
-                </div>
-                <div class="hd-table-row">
-                    <div class="form-group">
-                        <label for="cleantip">备注</label>
-                        <input class="table-input" id="cleantip" placeholder="备注">
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="batch-tip" name="batch-tip">
-                        <label for="batch-tip">批量清除备注</label>
-                    </div>
-                </div>
+
+            <div class="col-sm-6 details-right">
+                <div id="chart" style="width: 600px;height:400px;"></div>
+
             </div>
         </section>
-        <section class="j-render-ctn">
-            <div class="fix-wrap">
-                <table-vue class="fix-center j-fix-center"
-                            :col="col"
-                            :row="row"
-                            :fix="fix"
-                            :sort="sort"
-                            :ctn="ctn"
-                ></table-vue>
 
-
-                <div class="fix-left">
-                    <table-vue :col="col"
-                                :row="row"
-                                :fix="fix"
-                                :sort="sort"
-                                :ctn="ctn"
-                                :left="true"
-                    ></table-vue>
-                </div>
-            </div>
+        <section class="details-tb">
+            <table>
+                <tr>
+                    <th colspan="5">基础数据</th>
+                    <th colspan="5">商品数据</th>
+                </tr>
+                <tr>
+                    <td>时间</td>
+                    <td>店铺</td>
+                    <td>负责人</td>
+                    <td>上架时间</td>
+                    <td>分类</td>
+                    <td>流量</td>
+                    <td>转化率</td>
+                    <td>销量</td>
+                    <td>售价</td>
+                    <td>...</td>
+                </tr>
+                <tr>
+                    <td colspan="10">汇总</td>
+                </tr>
+                <tr>
+                    <td colspan="10">20170419</td>
+                </tr>
+            </table>
         </section>
     </div>
-    <script type="text/x-template" id="table-temp">
-        <div class="fix-hd-table">
-            <div class="noscroll-head" :class="{'j-noscroll-head': !left&&!right}">
-                <table class="thead table table-bordered table-hover" :id="isScrollHead">
-                    <col width="90px" v-for="n in col+3"></col>
-                    <tbody>
-                        <tr class="info">
-                            <th :colspan="3" v-if="!right">基础数据</th>
-                            <th :colspan="col" v-for="n in 1" :class="{'visibility-none': left||right}">{{n + '第一列长头'}}</th>
-                        </tr>
-                        <tr class="info">
-                            <th v-if="!right">
-                                序号
-                            </th>
-                            <th v-if="!right" v-for="(fixValue, fixKey) in fix">
-                                {{fixValue}}
-                            </th>
-                            <th v-for="sortValue in sort" :class="{'visibility-none': left||right}">{{sortValue}}</th>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="scroll-body" :id="isScrollBody">
-                <table class="tbody table table-bordered table-hover" :class="{'scroll-body-left': left||right}" :id="whichSide">
-                    <col width="90px" v-for="n in col+3"></col>
-                    <tbody>
-                        <tr v-for="m in row">
-                            <td v-if="!right" v-for="(fixValue, fixKey) in fix">
-                                <template v-if="fixValue == 'id'">
-                                    
-                                </template>
-                                <template v-else>
-                                    {{ctn[m-1] ? ctn[m-1][fixKey] : ''}}
-                                </template>
-                            </td>
-                            <td v-for="(sortValue, sortKey) in sort" :class="{'visibility-none': left||right}">{{ctn[m-1] ? ctn[m-1][sortKey] : ''}}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </script>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.bootcss.com/vue/2.3.4/vue.js"></script>
-	<script>
-        Vue.component('table-vue', {
-            template: '#table-temp',
-            props: {
-                col: {type: Number, default: 0},
-                row: {type: Number, default: 0},
-                fix: {type: Object, default: {}},
-                sort: {type: Object, default: {}},
-                ctn: {type: Array, default: []},
-                left: {type: Boolean, default: false},
-                right: {type: Boolean, default: false},
-            },
-            data: function() {
-                return {
-                    isScrollBody: !this.left&&!this.right ? 'j-scroll-body' : '',
-                    isScrollHead: !this.left&&!this.right ? 'j-thead' : '',
-                }
-            },
-            computed: {
-                whichSide: function() {
-                    if (this.left) {
-                        return 'j-scroll-left'
-                    } else if (this.right) {
-                        return 'j-scroll-right'
-                    } else {
-                        return ''
-                    }
-                }
-            }
-        })
+<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
+<script type="text/javascript">
+var myChart = echarts.init(document.getElementById('chart'));
 
-        var reportVue = new Vue({
-            el: '.j-report-ctn',
-            data: {
-                show: {
-                    general: true,
-                    batch: false
-                },
-                row: 10,
-                col: 30,
-                ctn: [],
-                fix: {
-                    'id': '序号',
-                    'asinf': 'ASIN父',
-                    'bi_img_url': '图片',
-                },
-                sort : {
-                    // 基础数据
-                    'shop': '店铺',
-                    'charger': '负责人',
-                    "catpath": '分类',
-                    'bi_weight': '重量',
-                    'bi_cost': '成本',
+function randomData() {
+now = new Date(+now + oneDay);
+value = value + Math.random() * 21 - 10;
+return {
+    name: now.toString(),
+    value: [
+        [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
+        Math.round(value)
+    ]
+}
+}
 
-                    // 库存
-                    'afninboundshippedquantity': 'FBA在途库存',
-                    'bi_stock105areabc': '105库存',
+var data = [];
+var now = +new Date(1997, 9, 3);
+var oneDay = 24 * 3600 * 1000;
+var value = Math.random() * 1000;
+for (var i = 0; i < 1000; i++) {
+    data.push(randomData());
+}
 
-                    // 销售
-                    // 广告
-                    // 成本
-                    // 退货
-                    // 其它
-                    'eviewnum': '评论数',
-                    'goodssort': '排名',
-                    '': '',
-                    '': '',
-                }
-            },
-            created: function() {
-                this.getAjax();
-            },
-            mounted: function() {
-
-            },
-            methods: {
-                getAjax: function() {
-                    var self = this;
-                    $.ajax({
-                        url: '/yuzhen_json.json',
-                        type: 'GET',
-                        dataType: 'json'
-                    })
-                    .done(function(json) {
-                        console.log(json);
-                        self.row = json.length;
-
-                        var size = 0, key;
-                        for (key in json[0]) {
-                            size++;
-                        }
-                        self.col = size;
-
-                        self.ctn = json;
-
-                        self.$nextTick(function() {
-                            self.bindEvent();
-                            self.bindTd();
-                        })
-                    })
-                    .fail(function() {
-                        console.log("error");
-                    })
-                    .always(function() {
-                        console.log("complete");
-                    });
-
-                },
-                bindEvent: function() {
-                    var getScrollBody = document.getElementById('j-scroll-body');
-                    var getScrollHeader = document.getElementById('j-thead');
-                    var getScrollLeft = document.getElementById('j-scroll-left');
-                    getScrollBody.style.width = getScrollHeader.offsetWidth+'px';
-                    getScrollBody.onscroll = function(){
-                        var scrollTop = (function() {
-                            if (getScrollBody.pageYOffset != null){
-                                return getScrollBody.pageYOffset
-                            }else if (document.compatMode == 'CSS1Compat'){
-                                return getScrollBody.scrollTop
-                            }
-                            return getScrollBody.scrollTop
-                        })();
-                        getScrollLeft.style.transform = 'translate3d(0,' + (-scrollTop+'px') + ',0)';
-                    }
-
-                    // $('.j-scroll-body').scroll(function(event) {
-                    //     var targetScrollTop = $('.j-scroll-body').scrollTop();
-                    //     $('.j-scroll-body-left').css('top', -targetScrollTop);
-                    //     $('.j-scroll-body-right').css('top', -targetScrollTop);
-                    // });
-                },
-
-                // 列表项的hover和点击
-                bindTd: function() {
-                    $('.j-fix-center td').hover(function() {
-                        // 列背景
-                        var e = $(this).prevAll().length+1,
-                        t = $(this).closest("tr").prevAll().length+1;
-                        if (e>1) {
-                            $(this).closest("table").find("tr:lt(" + t + ") > td:nth-child(" + e + ")").addClass("col-highlight");
-                        }
-
-                        // 左悬浮的行背景
-                        console.log($(this).closest("tr").index());
-                        var rowIndex = $(this).closest("tr").index();
-                        $('#j-scroll-left tr').eq(rowIndex).addClass('row-highlight');
-                    }, function() {
-                        $(this).closest("table").find("tr > .col-highlight").removeClass("col-highlight");
-                        $('#j-scroll-left tr.row-highlight').removeClass('row-highlight');
-                    });
-                }
-            }
-        })
+option = {
+    title: {
+        text: '销售趋势'
+    },
+    tooltip: {
+        trigger: 'axis',
+        formatter: function (params) {
+            params = params[0];
+            var date = new Date(params.name);
+            return date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear() + ' : ' + params.value[1];
+        },
+        axisPointer: {
+            animation: false
+        }
+    },
+    xAxis: {
+        type: 'time',
+        splitLine: {
+            show: false
+        }
+    },
+    yAxis: {
+        type: 'value',
+        boundaryGap: [0, '100%'],
+        splitLine: {
+            show: false
+        }
+    },
+    series: [{
+        name: '模拟数据',
+        type: 'line',
+        showSymbol: false,
+        hoverAnimation: false,
+        data: data
+    }]
+};
+myChart.setOption(option);
 
 
-    </script>
+</script>
 </body>
 
 </html>
